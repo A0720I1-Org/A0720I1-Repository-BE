@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
@@ -26,6 +28,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public int findIdByUsername(String username) {
         return accountRepository.findIdUserByUsername(username);
+    }
+
+    @Override
+    public void createAccount(String username, String password, int isEnable) {
+        accountRepository.add(username, passwordEncoder.encode(password), 1);
     }
 
     @Override
