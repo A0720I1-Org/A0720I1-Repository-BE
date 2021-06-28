@@ -20,4 +20,5 @@ public class TeacherUpdateDTO {
     String hometown;
     String level;
     String position;
+    String imageUrl;
 }

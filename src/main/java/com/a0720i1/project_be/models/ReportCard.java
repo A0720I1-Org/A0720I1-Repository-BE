@@ -12,11 +12,11 @@ public class ReportCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;
-
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "student_class_id", referencedColumnName = "id")
     private StudentClass studentClass;

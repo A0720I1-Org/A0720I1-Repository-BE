@@ -70,18 +70,19 @@ public class SecurityController {
                                             @RequestBody PasswordDTO passwordDTO) {
         Account account = accountService.findByUsername(userName);
         if (account == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if(accountService.checkChangePassword(account,passwordDTO.getOldPassword(),passwordDTO.getNewPassword(),passwordDTO.getConfirmPassword())){
-            return ResponseEntity.ok("accepted");
+            accountService.changePassword(account,passwordDTO.getOldPassword(),passwordDTO.getNewPassword(),passwordDTO.getConfirmPassword());
+            return new ResponseEntity<>(HttpStatus.OK);
         }else {
-            return ResponseEntity.ok("error");
+            return ResponseEntity.badRequest()
+                    .body("Mật khẩu không đúng");
         }
 
     }
     @GetMapping("/info/{username}")
     public ResponseEntity<TeacherViewDTO> ChangePassword(@PathVariable("username") String username) {
-        System.out.println(username);
         return new ResponseEntity<>(accountService.getInfoAccount(username),HttpStatus.OK);
     }
     @PutMapping(value = "/update-info/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)

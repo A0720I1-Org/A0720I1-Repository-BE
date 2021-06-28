@@ -56,13 +56,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO, String username) {
+    public void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO,String username) {
         Account account = accountRepository.findAccountByUsername(username);
         if(account == null) {
             return ;
         }else {
-             accountRepository.updadeInfoAccount(teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),
-                     teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),teacherUpdateDTO.getPosition(),account.getId());
+            accountRepository.updadeInfoAccount(teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),
+                    teacherUpdateDTO.getPosition(),teacherUpdateDTO.getLevel(),teacherUpdateDTO.getPhone(),teacherUpdateDTO.getEmail(),teacherUpdateDTO.getImageUrl(),account.getId());
         }
     }
 }
