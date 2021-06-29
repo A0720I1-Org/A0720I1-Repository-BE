@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     // Đôn: Tìm kiếm account bằng username
-    @Query(value = "SELECT * FROM account WHERE account.username = ?1 limit 1", nativeQuery = true)
+//    @Query(value = "SELECT * FROM account WHERE account.username = ?1 limit 1", nativeQuery = true)
     Account findAccountByUsername(String username);
 
     // Đôn: Tìm kiếm id account bằng username
