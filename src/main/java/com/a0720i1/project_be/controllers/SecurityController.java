@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/public")
+//@RequestMapping("api/public")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SecurityController {
     @Autowired
@@ -34,7 +34,7 @@ public class SecurityController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/login")
+    @PostMapping("/api/public/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
         Authentication authentication;
         try {
@@ -65,7 +65,7 @@ public class SecurityController {
                 new JwtResponse(jwt, account, roles)
         );
     }
-    @PutMapping("/change-password/{username}")
+    @PutMapping("/api/teacher/change-password/{username}")
     public ResponseEntity<?> ChangePassword(@PathVariable("username") String userName ,
                                             @RequestBody PasswordDTO passwordDTO) {
         Account account = accountService.findByUsername(userName);
@@ -81,7 +81,7 @@ public class SecurityController {
         }
 
     }
-    @GetMapping("/info/{username}")
+    @GetMapping("/api/teacher/info/{username}")
     public ResponseEntity<TeacherViewDTO> ChangePassword(@PathVariable("username") String username) {
         return new ResponseEntity<>(accountService.getInfoAccount(username),HttpStatus.OK);
     }

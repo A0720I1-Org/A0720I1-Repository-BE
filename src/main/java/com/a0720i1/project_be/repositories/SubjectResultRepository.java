@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface SubjectResultRepository extends JpaRepository<SubjectResult,Integer> {
+//    PhatDT tìm subject-result
     SubjectResult getBySemesterResultIdAndSubjectId(int semesterResultId ,int subjectId);
     @Modifying
     @Query(value = "select student.id as studentId,mark.mark_col1 as markCol1 ,mark.mark_col2 as markCol2,mark.mark_col3 as markCol3,student.name,mark.multiplier,student.birthday from mark \n" +
@@ -23,7 +24,7 @@ public interface SubjectResultRepository extends JpaRepository<SubjectResult,Int
             "join student on report_card.student_id = student.id\n" +
             "where semester_result.semester =?1 and report_card.student_class_id = ?2 and subject.id = ?3 ",nativeQuery = true)
     List<StudentResultDTO> findStudentResult(int semId,int stuClaId,int subId);
-
+    //    PhatDT tìm class-student
     @Modifying
     @Query(value = "select student_class.name as name ,student_class.id as id ,\n" +
             "school_year.begin_year as beginYear,school_year.end_year as endYear from student_class\n" +
@@ -61,5 +62,4 @@ public interface SubjectResultRepository extends JpaRepository<SubjectResult,Int
             "join report_card on report_card.student_id = student.id\n" +
             "where report_card.student_class_id = ?1",nativeQuery = true)
     List<StudentListDTO> getStudentList(int stuClaId);
-
 }
