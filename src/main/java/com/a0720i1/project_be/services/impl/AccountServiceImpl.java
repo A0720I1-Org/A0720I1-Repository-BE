@@ -65,4 +65,9 @@ public class AccountServiceImpl implements AccountService {
                     teacherUpdateDTO.getPosition(),teacherUpdateDTO.getLevel(),teacherUpdateDTO.getPhone(),teacherUpdateDTO.getEmail(),teacherUpdateDTO.getImageUrl(),account.getId());
         }
     }
+
+    @Override
+    public String getMailByUsername(String username) {
+        return accountRepository.getEmail(username);
+    }
 }

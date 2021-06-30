@@ -31,7 +31,7 @@ public interface SubjectResultRepository extends JpaRepository<SubjectResult,Int
             "join school_year on student_class.school_year_id = school_year.id\n" +
             "where school_year.id = 1",nativeQuery = true)
     List<ClassListDTO> findAllClass() ;
-
+    //    PhatDT
     @Query(value = "select mark.id from mark\n" +
             "join subject_result on mark.subject_result_id = subject_result.id\n" +
             "join subject on subject_result.subject_id = subject.id\n" +
@@ -40,23 +40,24 @@ public interface SubjectResultRepository extends JpaRepository<SubjectResult,Int
             "join student on report_card.student_id = student.id\n" +
             "where  semester_result.semester = ?1 and report_card.student_class_id = ?2 and subject.id = ?3 and student.id = ?4 and mark.multiplier = ?5",nativeQuery = true)
     Integer getMarkId(int semId,int stuClaId,int subId ,int stuId,int multiplier) ;
+    //    PhatDT
     @Transactional
     @Modifying
     @Query(value = "update mark \n" +
             "set mark.mark_col1 = ?1,mark.mark_col2 = ?2 ,mark.mark_col3 = ?3\n" +
             "where mark.id = ?4",nativeQuery = true)
     void changeMark(Double markCol1,Double markCol2,Double markCol3,int markId);
-
+    //    PhatDT
     @Transactional
     @Modifying
     @Query(value = "insert into subject_result(semester_result_id,subject_id) value (?1,?2)",nativeQuery = true)
     void saveSubjectResult(int semId,int subId);
-
+    //    PhatDT
     @Transactional
     @Modifying
     @Query(value = "insert into semester_result(report_card_id,semester) value (?1,1),(?1,2)",nativeQuery = true)
     void saveSemesterResult(int repcId);
-
+    //    PhatDT
     @Modifying
     @Query(value = "select student.id , student.name , student.birthday from student \n" +
             "join report_card on report_card.student_id = student.id\n" +

@@ -12,11 +12,12 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
-    @Query(value = "SELECT * FROM account WHERE account.username = ?1", nativeQuery = true)
+//    @Query(value = "SELECT * FROM account WHERE account.username = ?1", nativeQuery = true)
     Account findAccountByUsername(String username);
     @Modifying
     @Query(value = "select account_id from account where username = ?1",nativeQuery = true)
     int findIdUserByUsername(String username);
+//    PhatDT
     @Transactional
     @Modifying
     @Query(value ="UPDATE account SET password = :password WHERE username = :accountName",nativeQuery = true)
@@ -25,8 +26,14 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
             "from teacher as t\n"+
             "where t.account_id = ?1",nativeQuery = true)
     TeacherViewDTO getInfoAccount(Integer accountId);
+    //    PhatDT
     @Transactional
     @Modifying
     @Query(value = "update teacher as t set t.address = ?1, t.hometown = ?2, t.position = ?3,t.level =?4,t.phone=?5, t.email=?6 ,t.image_url=?7 where t.account_id = ?8",nativeQuery = true)
     void updadeInfoAccount(String address, String hometown,String position,String level,String phone ,String email,String imgUrl,int accountId);
+//    PhatDT
+@Query(value = "SELECT teacher.email FROM teacher \n" +
+        "join account on teacher.account_id = account.id\n" +
+        "where account.username = ?1",nativeQuery = true)
+String getEmail(String username);
 }

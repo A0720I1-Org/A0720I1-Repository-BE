@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +37,8 @@ public class SecurityController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private AccountService accountService;
-
+    @Autowired
+    public JavaMailSender emailSender;
     @PostMapping("/api/public/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
         Authentication authentication;
@@ -65,7 +70,7 @@ public class SecurityController {
                 new JwtResponse(jwt, account, roles)
         );
     }
-    @PutMapping("/api/teacher/change-password/{username}")
+    @PutMapping(value="/api/teacher/change-password/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> ChangePassword(@PathVariable("username") String userName ,
                                             @RequestBody PasswordDTO passwordDTO) {
         Account account = accountService.findByUsername(userName);
@@ -85,10 +90,37 @@ public class SecurityController {
     public ResponseEntity<TeacherViewDTO> ChangePassword(@PathVariable("username") String username) {
         return new ResponseEntity<>(accountService.getInfoAccount(username),HttpStatus.OK);
     }
-    @PutMapping(value = "/update-info/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
+
+    @PutMapping(value = "/api/teacher/update-info/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateTeacher(@PathVariable("username") String username,
                                                           @RequestBody TeacherUpdateDTO teacherUpdateDTO) {
         this.accountService.updateInfoAccount(teacherUpdateDTO,username);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/api/teacher/forgot-password/{username}")
+    public ResponseEntity<?> sendMailConfirmChangePassword(@PathVariable("username") String username,
+                                                           @RequestParam("code") Integer code) throws MessagingException {
+        String email = accountService.getMailByUsername(username);
+        if (email == null || code == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        MimeMessage message = emailSender.createMimeMessage();
+
+        boolean multipart = true;
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
+
+        String htmlMsg = "<h3>Your code is <i style='color: green'>" + code + "<i></h3>" +
+                "<p style='color: red; font-size: 25px;'>" +
+                "A0720I1 <p>";
+        message.setContent(htmlMsg, "text/html");
+
+        helper.setTo(email);
+
+        helper.setSubject("A0720I1 hỗ trợ lấy lại mật khẩu");
+
+        emailSender.send(message);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

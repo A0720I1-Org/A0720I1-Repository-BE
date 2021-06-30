@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequestMapping("/subject-result")
+
 @RestController
 public class SubjectResultController {
     @Autowired
     SubjectResultService subjectResultService;
-    @GetMapping("/subject")
+    @GetMapping("/api/teacher/subject-result/subject")
     public ResponseEntity<List<Subject>> getListSubject() {
         return subjectResultService.findAllSubject().isEmpty() ?
                 new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(subjectResultService.findAllSubject(),HttpStatus.OK) ;
     }
-    @GetMapping("")
+    @GetMapping("/api/teacher/subject-result")
     public ResponseEntity<List<StudentResultUpdateDTO>> getListStudentResult(@RequestParam("seReId") int seReId,
                                                                        @RequestParam("claStuId") int claStuId,
                                                                        @RequestParam("subId") int subId) {
@@ -33,21 +33,21 @@ public class SubjectResultController {
         return subjectResultService.getListStudentResult(seReId,claStuId,subId).isEmpty()?
                 new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(subjectResultService.getListStudentResult(seReId,claStuId,subId),HttpStatus.OK) ;
     }
-    @GetMapping("/class")
+    @GetMapping("/api/teacher/subject-result/class")
     public ResponseEntity<List<ClassListDTO>> getListClass() {
 
         return subjectResultService.findAllClass().isEmpty()?
                 new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(subjectResultService.findAllClass(),HttpStatus.OK) ;
     }
 
-    @PutMapping("/subject-result")
+    @PutMapping("/api/teacher/subject-result/subject-result")
     public ResponseEntity<?> updateSubjectResult(@RequestParam("seReId") int seReId,
                                                  @RequestParam("claStuId") int claStuId,
                                                  @RequestParam("subId") int subId,
                                                  @RequestBody ArrayList<StudentResultUpdateDTO> studentResultDTOS) {
         for(StudentResultUpdateDTO studentResultDTO : studentResultDTOS) {
             if(subjectResultService.getMarkId(seReId,claStuId,subId,studentResultDTO) == null) {
-                return ResponseEntity.badRequest().body("Thêm điểm ko thành công");
+                return ResponseEntity.badRequest().body("Cập nhật điểm ko thành công");
             }
             subjectResultService.updateMark(seReId,claStuId,subId,studentResultDTO);
         }

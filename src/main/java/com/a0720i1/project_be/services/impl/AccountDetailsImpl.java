@@ -13,10 +13,8 @@ import java.util.stream.Collectors;
 public class AccountDetailsImpl implements UserDetails {
     private int id;
     private String username;
-    private boolean enabled;
-
-    @JsonIgnore
     private String password;
+    private boolean enabled;
 
     List<GrantedAuthority> authorities;
 
@@ -50,7 +48,7 @@ public class AccountDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
