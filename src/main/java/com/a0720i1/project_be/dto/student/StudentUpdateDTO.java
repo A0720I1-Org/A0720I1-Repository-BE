@@ -1,4 +1,4 @@
-package com.a0720i1.project_be.dto.teacher;
+package com.a0720i1.project_be.dto.student;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,17 +9,16 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeacherUpdateDTO {
+public class StudentUpdateDTO {
     int id;
     String name;
     LocalDate birthday;
-    String address;
-    String phone;
-    String email;
     String gender;
     String hometown;
-    String level;
-    String position;
+    String ethnicity;
+    String religion;
+    String imageUrl;
+    String email;
 
     public int getId() {
         return id;
@@ -33,18 +32,6 @@ public class TeacherUpdateDTO {
         return birthday;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -53,11 +40,19 @@ public class TeacherUpdateDTO {
         return hometown;
     }
 
-    public String getLevel() {
-        return level;
+    public String getEthnicity() {
+        return ethnicity;
     }
 
-    public String getPosition() {
-        return position;
+    public String getReligion() {
+        return religion;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
