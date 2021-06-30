@@ -29,7 +29,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
             "where role.id = 2", nativeQuery = true)
     List<TeacherListDTO> getListTeacher();
 
-    @Query(value = "select t.id, t.address, t.birthday, t.email, t.gender, t.hometown, t.name, t.phone, t.level, t.position, t.image_url, student_class.name as studentClass \n" +
+    @Query(value = "select t.id, t.address, t.birthday, t.email, t.gender, t.hometown, t.name, t.phone, t.level, t.position, t.image_url as imageUrl, student_class.name as studentClass \n" +
             "from teacher as t\n" +
             "left join student_class on student_class.teacher_id = t.id\n" +
             "where t.id = ?1", nativeQuery = true)
@@ -38,10 +38,10 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
     @Transactional
     @Modifying
     @Query(value = "update teacher as t set t.address = ?1, t.birthday = ?2, t.email = ?3, t.gender = ?4, t.hometown = ?5, " +
-            "t.name = ?6, t.phone = ?7, t.level = ?8, t.position = ?9 " +
-            "where t.id = ?10", nativeQuery = true)
+            "t.name = ?6, t.phone = ?7, t.level = ?8, t.position = ?9, t.image_url = ?10 " +
+            "where t.id = ?11", nativeQuery = true)
     void updateTeacherDTO(String address, LocalDate birthday, String email, String gender, String hometown, String name,
-                          String phone, String level, String position, int id);
+                          String phone, String level, String position, String imageUrl, int id);
 
     @Query(value = "select teacher.id, teacher.name, teacher.address, teacher.birthday, teacher.phone from teacher \n" +
             "left join account on teacher.account_id = account.id\n" +

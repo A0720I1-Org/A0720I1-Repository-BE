@@ -35,7 +35,7 @@ public class TeacherServiceImpl implements TeacherService {
         this.teacherRepository.updateTeacherDTO(teacherUpdateDTO.getAddress(), teacherUpdateDTO.getBirthday(),
                 teacherUpdateDTO.getEmail(), teacherUpdateDTO.getGender(), teacherUpdateDTO.getHometown(),
                 teacherUpdateDTO.getName(), teacherUpdateDTO.getPhone(), teacherUpdateDTO.getLevel(),
-                teacherUpdateDTO.getPosition(), teacherUpdateDTO.getId());
+                teacherUpdateDTO.getPosition(), teacherUpdateDTO.getImageUrl(), teacherUpdateDTO.getId());
     }
 
     @Override

@@ -14,4 +14,5 @@ public interface TeacherViewDTO {
     String getLevel();
     String getPosition();
     String getStudentClass();
+    String getImageUrl();
 }
