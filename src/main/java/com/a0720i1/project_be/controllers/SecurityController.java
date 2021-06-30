@@ -1,4 +1,5 @@
 package com.a0720i1.project_be.controllers;
+
 import com.a0720i1.project_be.dto.JwtResponse;
 import com.a0720i1.project_be.dto.PasswordDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherUpdateDTO;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -37,8 +37,6 @@ public class SecurityController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private AccountService accountService;
-    @Autowired
-    public JavaMailSender emailSender;
     @PostMapping("/api/public/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
         Authentication authentication;
@@ -55,7 +53,6 @@ public class SecurityController {
             }
 
         }
-//PhatDT
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtility.generateJwtToken(loginRequest.getUsername());
 //        AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -99,31 +96,4 @@ public class SecurityController {
         this.accountService.updateInfoAccount(teacherUpdateDTO,username);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/api/teacher/forgot-password/{username}")
-    public ResponseEntity<?> sendMailConfirmChangePassword(@PathVariable("username") String username,
-                                                           @RequestParam("code") Integer code) throws MessagingException {
-        String email = accountService.getMailByUsername(username);
-        if (email == null || code == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        MimeMessage message = emailSender.createMimeMessage();
-
-        boolean multipart = true;
-
-        MimeMessageHelper helper = new MimeMessageHelper(message, multipart, "utf-8");
-
-        String htmlMsg = "<h3>Your code is <i style='color: green'>" + code + "<i></h3>" +
-                "<p style='color: red; font-size: 25px;'>" +
-                "A0720I1 <p>";
-        message.setContent(htmlMsg, "text/html");
-
-        helper.setTo(email);
-
-        helper.setSubject("A0720I1 hỗ trợ lấy lại mật khẩu");
-
-        emailSender.send(message);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 }
