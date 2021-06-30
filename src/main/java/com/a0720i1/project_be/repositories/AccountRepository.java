@@ -36,4 +36,9 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
         "join account on teacher.account_id = account.id\n" +
         "where account.username = ?1",nativeQuery = true)
 String getEmail(String username);
+    @Transactional
+    @Query(value = "update account\n " +
+            "set password = ?2\n" +
+            "where account.username = ?1",nativeQuery = true)
+    void changePasswordByForgot(String username,String newPW);
 }

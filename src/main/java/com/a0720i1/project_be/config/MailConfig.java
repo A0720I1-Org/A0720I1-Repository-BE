@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
+//PhatDT config reset mat khau su dung email
 @Configuration
 public class MailConfig {
     private static final String MY_EMAIL = "a0720i1.cg.dn@gmail.com";

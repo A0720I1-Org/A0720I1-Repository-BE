@@ -14,4 +14,5 @@ public interface AccountService {
     TeacherViewDTO getInfoAccount(String username);
     void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO, String username);
     String getMailByUsername(String username);
+    void changePasswordByForgot(String username,String newPw);
 }

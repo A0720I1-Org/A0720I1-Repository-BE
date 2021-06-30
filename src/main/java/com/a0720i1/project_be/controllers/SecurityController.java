@@ -55,7 +55,7 @@ public class SecurityController {
             }
 
         }
-
+//PhatDT
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtility.generateJwtToken(loginRequest.getUsername());
 //        AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -70,6 +70,7 @@ public class SecurityController {
                 new JwtResponse(jwt, account, roles)
         );
     }
+    //PhatDT
     @PutMapping(value="/api/teacher/change-password/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> ChangePassword(@PathVariable("username") String userName ,
                                             @RequestBody PasswordDTO passwordDTO) {
@@ -86,11 +87,12 @@ public class SecurityController {
         }
 
     }
+    //PhatDT
     @GetMapping("/api/teacher/info/{username}")
     public ResponseEntity<TeacherViewDTO> ChangePassword(@PathVariable("username") String username) {
         return new ResponseEntity<>(accountService.getInfoAccount(username),HttpStatus.OK);
     }
-
+//PhatDT
     @PutMapping(value = "/api/teacher/update-info/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateTeacher(@PathVariable("username") String username,
                                                           @RequestBody TeacherUpdateDTO teacherUpdateDTO) {
@@ -123,4 +125,5 @@ public class SecurityController {
         emailSender.send(message);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

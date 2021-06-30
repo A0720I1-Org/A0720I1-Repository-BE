@@ -70,4 +70,9 @@ public class AccountServiceImpl implements AccountService {
     public String getMailByUsername(String username) {
         return accountRepository.getEmail(username);
     }
+
+    @Override
+    public void changePasswordByForgot(String username, String newPw) {
+        accountRepository.changePasswordByForgot(username,passwordEncoder.encode(newPw));
+    }
 }
