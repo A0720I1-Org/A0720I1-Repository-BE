@@ -50,4 +50,5 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
             "where teacher.name like %?2% and teacher.address like %?3% \n" +
             "limit ?1,5", nativeQuery = true)
     List<TeacherListDTO> searchTeacherByNameAndAddress(int index, String name, String address);
+
 }
