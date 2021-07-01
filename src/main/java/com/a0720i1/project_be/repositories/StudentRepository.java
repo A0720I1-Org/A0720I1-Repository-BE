@@ -17,15 +17,20 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
     @Query(value = "select student.id, student.name,student.image_url as imageUrl, student.birthday,student.gender, student.hometown, student.religion, student.ethnicity, student.email, student_class.name as className from student \n" +
             "left join report_card on report_card.student_id = student.id\n"+
             "left join student_class on report_card.student_class_id = student_class.id\n"+
-            "where report_card.student_class_id = ?1", nativeQuery = true)
-    List<HomeRoomClassDTO> getStudentByClassId(Integer class_id);
+            "left join teacher on teacher.id = student_class.teacher_id\n"+
+            "left join account on account.id = teacher.account_id\n"+
+            "where account.username = ?1", nativeQuery = true)
+    List<HomeRoomClassDTO> getStudentByTeacherUsername(String username);
 
+    //Duy
     @Query(value = "select student.id, student.name,student.image_url as imageUrl, student.birthday,student.gender, student.hometown, student.religion, student.ethnicity, student.email, student_class.name as className from student \n" +
             "left join report_card on report_card.student_id = student.id\n"+
             "left join student_class on report_card.student_class_id = student_class.id\n"+
-            "where report_card.student_class_id = ?1\n" +
+            "left join teacher on teacher.id = student_class.teacher_id\n"+
+            "left join account on account.id = teacher.account_id\n"+
+            "where account.username = ?1\n"+
             "limit ?2,5", nativeQuery = true)
-    List<HomeRoomClassDTO> getPageStudentByClassId(Integer class_id, int index);
+    List<HomeRoomClassDTO> getPageStudentByTeacherUsername(String username, int index);
 
     //Duy
     @Query(value = "SELECT student_class.id from student_class\n" +

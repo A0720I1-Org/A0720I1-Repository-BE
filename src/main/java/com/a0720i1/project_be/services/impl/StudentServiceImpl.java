@@ -16,24 +16,15 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
 
     @Override
-    public List<HomeRoomClassDTO> getStudentByClassId(String username) {
-        Integer classId = this.getClassIdByUsernameTeacher(username);
-        return studentRepository.getStudentByClassId(classId);
+    public List<HomeRoomClassDTO> getStudentByTeacherUsername(String username) {
+        return studentRepository.getStudentByTeacherUsername(username);
     }
 
     @Override
-    public List<HomeRoomClassDTO> getPageStudentByClassId(int index, String username) {
-        Integer classId = this.getClassIdByUsernameTeacher(username);
-        return studentRepository.getPageStudentByClassId(classId, index);
+    public List<HomeRoomClassDTO> getPageStudentByTeacherUsername(int index, String username) {
+        return studentRepository.getPageStudentByTeacherUsername(username, index);
     }
 
-    @Override
-    public Integer  getClassIdByUsernameTeacher(String username) {
-        if(studentRepository.getIdClassByUsernameTeacher(username) == null) {
-            return null ;
-        }
-        return studentRepository.getIdClassByUsernameTeacher(username);
-    }
 
     @Override
     public StudentHomeroomClassDTO getInforStudent(int id) {
