@@ -93,7 +93,7 @@ public class TeacherController {
         accountService.createAccount(teacherCreateDTO.getUsername(), encoder.encode(teacherCreateDTO.getPassword()), 1);
         int accountId = accountService.findIdByUsername(teacherCreateDTO.getUsername());
         accountRoleService.createAccountRole(accountId, 2);
-        teacherService.createTeacher(teacherCreateDTO.getName(), teacherCreateDTO.getBirthday(),teacherCreateDTO.getGender(),
+        teacherService.createTeacher(teacherCreateDTO.getName().replaceAll("\\s\\s+", " ").trim(), teacherCreateDTO.getBirthday(),teacherCreateDTO.getGender(),
                 teacherCreateDTO.getEmail(), teacherCreateDTO.getImageUrl(), accountId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

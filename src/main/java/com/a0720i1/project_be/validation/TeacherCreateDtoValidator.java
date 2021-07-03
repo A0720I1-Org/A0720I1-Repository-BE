@@ -31,7 +31,7 @@ public class TeacherCreateDtoValidator implements Validator {
         } else if (teacher.getUsername().length() > 32) {
             errors.rejectValue("username", "username.maxlength", "Tên đăng nhập dài tối đa 32 ký tự");
         } else if (accountService.findByUsername(teacher.getUsername()) != null) {
-            errors.rejectValue("username", "username.exists", "Tên đăng nhập đã tồn tại");
+            errors.rejectValue("username", "username.exists", "Tên đăng nhập không khả dụng");
         }
         if (teacher.getPassword() == null){
             errors.rejectValue("password", "password.null", "Mật khẩu không được để trống");
@@ -55,13 +55,10 @@ public class TeacherCreateDtoValidator implements Validator {
         } else if (teacher.getEmail().matches("^[a-z][a-z0-9_\\\\.]{5,32}@[a-z0-9]{2,}(\\\\.[a-z0-9]{2,4}){1,2}$")) {
             errors.rejectValue("email", "email.pattern", "Email không đúng định dạng");
         } else if (teacherService.getTeacherByEmail(teacher.getEmail()) != null) {
-            errors.rejectValue("email", "email.exists", "Email đã tồn tại");
+            errors.rejectValue("email", "email.exists", "Email không khả dụng");
         }
         if (teacher.getBirthday() == null) {
             errors.rejectValue("birthday", "birthday.null", "Ngày sinh không được để trống");
-        }
-        if (teacher.getImageUrl() == null) {
-            errors.rejectValue("imageUrl", "imageUrl.null", "Hình ảnh không được để trống");
         }
     }
 }
