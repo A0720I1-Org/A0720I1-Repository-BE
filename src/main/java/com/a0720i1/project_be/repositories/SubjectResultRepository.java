@@ -61,6 +61,6 @@ public interface SubjectResultRepository extends JpaRepository<SubjectResult,Int
     @Modifying
     @Query(value = "select student.id , student.name , student.birthday from student \n" +
             "join report_card on report_card.student_id = student.id\n" +
-            "where report_card.student_class_id = ?1",nativeQuery = true)
+            "where report_card.student_class_id = ?1 order by student.name asc",nativeQuery = true)
     List<StudentListDTO> getStudentList(int stuClaId);
 }

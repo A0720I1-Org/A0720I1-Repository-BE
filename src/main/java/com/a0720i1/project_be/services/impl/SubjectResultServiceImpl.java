@@ -47,7 +47,6 @@ public class SubjectResultServiceImpl implements SubjectResultService {
     @Override
     public void updateMark(int semesterId,int stuClaId,int subId, StudentResultUpdateDTO studentResultDTO) {
         Integer markId = this.getMarkId(semesterId,stuClaId,subId,studentResultDTO);
-        System.out.println("subjectresultservice" + markId);
         if(studentResultDTO.getMultiplier() == 3) {
             studentResultDTO.setMarkCol2(null);
             studentResultDTO.setMarkCol3(null);
