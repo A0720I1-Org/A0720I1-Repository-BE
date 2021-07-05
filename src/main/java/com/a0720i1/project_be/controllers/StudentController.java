@@ -63,7 +63,6 @@ public class StudentController {
 
     @GetMapping("/api/student")
     public ResponseEntity<List<StudentListDTO>> getPageAllStudent(int index) {
-        System.out.println(index);
         List<StudentListDTO> studentListPage = this.studentService.getPageAllStudent(index);
         if (studentListPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -109,5 +108,16 @@ public class StudentController {
     public ResponseEntity<?> deleteStudent(@PathVariable int id) {
         this.studentService.deleteStudent(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/api/student/search")
+    public ResponseEntity<List<StudentListDTO>> searchStudentByNameAndHometown(@RequestParam int index ,
+                                                                               @RequestParam String name,
+                                                                               @RequestParam String hometown){
+        List<StudentListDTO> searchStudent = this.studentService.searchStudentByNameAndHometown(index, name, hometown);
+        if (searchStudent.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(searchStudent, HttpStatus.OK);
     }
 }

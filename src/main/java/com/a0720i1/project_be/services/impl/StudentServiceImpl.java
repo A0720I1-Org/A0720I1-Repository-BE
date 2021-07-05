@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -27,13 +28,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public List<StudentListDTO> searchStudentByNameAndHometown(int index, String name, String hometown) {
+        return this.studentRepository.searchStudentByNameAndHometown(index, name, hometown);
+    }
+
+    @Override
     public StudentViewDTO getStudentById(int id) {
         return this.studentRepository.getStudentById(id);
     }
 
     @Override
     public void deleteStudent(int id) {
-       this.studentRepository.deleteStudent(id);
+        this.studentRepository.deleteStudent(id);
     }
 
     @Override
@@ -44,9 +50,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void updateStudent(StudentUpdateDTO studentUpdateDTO) {
-        this.studentRepository.updateStudentDTO(studentUpdateDTO.getName(),studentUpdateDTO.getBirthday(),
-                studentUpdateDTO.getGender(),studentUpdateDTO.getHometown(),studentUpdateDTO.getEthnicity(),
-                studentUpdateDTO.getReligion(),studentUpdateDTO.getImageUrl(),studentUpdateDTO.getEmail(),
+        this.studentRepository.updateStudentDTO(studentUpdateDTO.getName(), studentUpdateDTO.getBirthday(),
+                studentUpdateDTO.getGender(), studentUpdateDTO.getHometown(), studentUpdateDTO.getEthnicity(),
+                studentUpdateDTO.getReligion(), studentUpdateDTO.getImageUrl(), studentUpdateDTO.getEmail(),
                 studentUpdateDTO.getId());
     }
 

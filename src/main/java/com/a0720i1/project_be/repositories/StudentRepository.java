@@ -58,4 +58,11 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "where student.id = ?1", nativeQuery = true)
     StudentDeleteDTO getStudentFullById(int id);
 
+    @Query(value = "select student.id, student.name, student.image_url, student.birthday, student.hometown from student\n" +
+            "left join account on student.account_id = account.id\n" +
+            "left join account_role on account_role.account_id = account.id\n" +
+            "left join role on role.id = account_role.role_id\n" +
+            "where student.name like %?2% and student.hometown like %?3% \n" +
+            "limit ?1,5", nativeQuery = true)
+    List<StudentListDTO> searchStudentByNameAndHometown(int index, String name, String hometown);
 }

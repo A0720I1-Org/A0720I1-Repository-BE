@@ -10,9 +10,17 @@ import java.util.List;
 
 public interface StudentService {
     List<StudentListDTO> getPageAllStudent(int index);
+
     List<StudentListDTO> getAllStudent();
+
+    List<StudentListDTO> searchStudentByNameAndHometown(int index, String name, String hometown);
+
     StudentViewDTO getStudentById(int id);
+
     void deleteStudent(int id);
+
     StudentDeleteDTO getStudentFullById(int id);
+
     void updateStudent(StudentUpdateDTO studentUpdateDTO);
+
 }
