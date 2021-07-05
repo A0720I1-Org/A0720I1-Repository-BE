@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.repositories;
 
+import com.a0720i1.project_be.dto.schedule.TeacherDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherListDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherViewDTO;
 import com.a0720i1.project_be.models.Teacher;
@@ -50,4 +51,13 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
             "where teacher.name like %?2% and teacher.address like %?3% \n" +
             "limit ?1,5", nativeQuery = true)
     List<TeacherListDTO> searchTeacherByNameAndAddress(int index, String name, String address);
+    @Transactional
+    @Modifying
+    @Query(value = "select distinct subject.name as nameSubject, teacher.name as nameTeacher\n" +
+            "from lesson\n" +
+            "left join schedule on lesson.schedule_id = schedule.id\n" +
+            "left join teacher on lesson.teacher_id = teacher.id\n" +
+            "join subject on lesson.subject_id = subject.id\n" +
+            "where schedule.student_class_id = ?1",nativeQuery = true)
+    List<TeacherDTO> getTeacherForSubject(int studentClassId);
 }

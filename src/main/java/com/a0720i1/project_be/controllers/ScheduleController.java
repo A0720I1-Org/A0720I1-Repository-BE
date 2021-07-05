@@ -2,13 +2,11 @@ package com.a0720i1.project_be.controllers;
 
 import com.a0720i1.project_be.dto.schedule.LessonDTO;
 import com.a0720i1.project_be.dto.schedule.StudentClassDTO;
+import com.a0720i1.project_be.dto.schedule.TeacherDTO;
 import com.a0720i1.project_be.models.Grade;
 import com.a0720i1.project_be.models.SchoolYear;
 import com.a0720i1.project_be.models.StudentClass;
-import com.a0720i1.project_be.services.impl.GradeServiceImpl;
-import com.a0720i1.project_be.services.impl.LessonServiceImpl;
-import com.a0720i1.project_be.services.impl.SchoolYearServiceImpl;
-import com.a0720i1.project_be.services.impl.StudentClassServiceImpl;
+import com.a0720i1.project_be.services.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +24,8 @@ public class ScheduleController {
     private GradeServiceImpl gradeServiceImpl;
     @Autowired
     private StudentClassServiceImpl studentClassServiceImpl;
+    @Autowired
+    private TeacherServiceImpl teacherServiceImpl;
 
     @GetMapping("/api/pubic/schedule/get-schedule")
     public ResponseEntity<List<LessonDTO>> getSchedule(@RequestParam("studentClassId") int studentClassId) {
@@ -53,13 +53,23 @@ public class ScheduleController {
         }
         return new ResponseEntity<>(gradeList, HttpStatus.OK);
     }
+
     @PostMapping("/api/public/student-class/get-list-student-class")
     public ResponseEntity<List<StudentClassDTO>> getStudentClass(@RequestParam("gradeId") int gradeId,
-                                                              @RequestParam("schoolYearId") int schoolYearId) {
-        List<StudentClassDTO> studentClassList = this.studentClassServiceImpl.getStudentClass(gradeId,schoolYearId);
+                                                                 @RequestParam("schoolYearId") int schoolYearId) {
+        List<StudentClassDTO> studentClassList = this.studentClassServiceImpl.getStudentClass(gradeId, schoolYearId);
         if (studentClassList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(studentClassList, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/public/student-class/get-teacher-for-subject")
+    public ResponseEntity<List<TeacherDTO>> getTeacherForSubject(@RequestParam("studentClassId") int studentClassId) {
+        List<TeacherDTO> teacherList = this.teacherServiceImpl.getTeacherForSubject(studentClassId);
+        if (teacherList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(teacherList, HttpStatus.OK);
     }
 }

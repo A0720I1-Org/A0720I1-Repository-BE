@@ -14,7 +14,7 @@ import java.util.List;
 public interface StudentClassRepository extends JpaRepository<StudentClass, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "select student_class.id as Id, student_class.name as studentClassName, teacher.name as teacherName\n" +
+    @Query(value = "select student_class.id as Id, student_class.name as studentClassName, teacher.name as teacherName, school_year.id as schoolYearId, grade.id as gradeId, grade.name as gradeName, school_year.begin_year as beginYear, school_year.end_year as endYear\n" +
             "from student_class\n" +
             "left join grade on student_class.grade_id = grade.id\n" +
             "left join school_year on student_class.school_year_id = school_year.id\n" +

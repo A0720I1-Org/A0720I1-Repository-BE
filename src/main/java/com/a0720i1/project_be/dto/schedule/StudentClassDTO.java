@@ -6,4 +6,9 @@ public interface StudentClassDTO {
     String getStudentClassName();
 
     String getTeacherName();
+    Integer getSchoolYearId();
+    Integer getGradeId();
+    String getGradeName();
+    Integer getBeginYear();
+    Integer getEndYear();
 }
