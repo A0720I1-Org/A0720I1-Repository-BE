@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.services.impl;
 
+import com.a0720i1.project_be.dto.schedule.ScheduleTeacherDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherListDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherUpdateDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherViewDTO;
@@ -53,5 +54,10 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher getTeacherByEmail(String email) {
         return teacherRepository.getTeacherByEmail(email);
+    }
+
+    @Override
+    public List<ScheduleTeacherDTO> getAllTeacherForSchedule() {
+        return teacherRepository.findAllTeacherForSchedule();
     }
 }
