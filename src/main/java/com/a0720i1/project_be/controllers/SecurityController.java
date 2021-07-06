@@ -7,6 +7,7 @@ import com.a0720i1.project_be.jwt.JwtUtility;
 import com.a0720i1.project_be.jwt.LoginRequest;
 import com.a0720i1.project_be.models.Account;
 import com.a0720i1.project_be.services.AccountService;
+import com.a0720i1.project_be.services.impl.AccountDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +25,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-//@RequestMapping("api/public")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SecurityController {
     @Autowired
     private JwtUtility jwtUtility;
@@ -50,14 +50,12 @@ public class SecurityController {
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtility.generateJwtToken(loginRequest.getUsername());
-//        AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-////        List<String> roles = userDetails.getAuthorities().stream()
-////                .map(GrantedAuthority::getAuthority)
-////                .collect(Collectors.toList());
-        Account account = accountService.findByUsername(loginRequest.getUsername());
-        List<String> roles = account.getAccountRoleList().stream()
-                .map(role -> (role.getRole().getName()))
+        AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
+        Account account = accountService.findByUsername(loginRequest.getUsername());
+        account.setPassword("");
         return ResponseEntity.ok(
                 new JwtResponse(jwt, account, roles)
         );
@@ -84,7 +82,7 @@ public class SecurityController {
     public ResponseEntity<TeacherViewDTO> ChangePassword(@PathVariable("username") String username) {
         return new ResponseEntity<>(accountService.getInfoAccount(username),HttpStatus.OK);
     }
-//PhatDT
+    //PhatDT
     @PutMapping(value = "/api/teacher/update-info/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateTeacher(@PathVariable("username") String username,
                                                           @RequestBody TeacherUpdateDTO teacherUpdateDTO) {
