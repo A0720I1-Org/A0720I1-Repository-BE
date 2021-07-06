@@ -17,5 +17,5 @@ public interface AccountRoleRepository extends JpaRepository<AccountRole, Intege
     @Query(value = "insert into account_role(account_id, role_id) values (?1, ?2)", nativeQuery = true)
     void createAccountRole(int accountId, int roleId);
 
-    List<AccountRole> findAllByAccount_Username(String account_username);
+    List<AccountRole> findAllByAccountUsername(String account_username);
 }

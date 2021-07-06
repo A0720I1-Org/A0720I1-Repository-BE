@@ -19,7 +19,7 @@ public class AccountRoleServiceImpl implements AccountRoleService {
     }
 
     @Override
-    public List<AccountRole> findAllByAccount_Username(String username) {
-        return accountRoleRepository.findAllByAccount_Username(username);
+    public List<AccountRole> findAllByAccountUsername(String username) {
+        return accountRoleRepository.findAllByAccountUsername(username);
     }
 }

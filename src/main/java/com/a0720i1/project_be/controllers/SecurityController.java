@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/public")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SecurityController {
     @Autowired
     private JwtUtility jwtUtility;
