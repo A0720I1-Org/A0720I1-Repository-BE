@@ -29,6 +29,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public void createAccount(String username, String password, int isEnable) {
+        accountRepository.add(username, passwordEncoder.encode(password), 1);
+    }
+
+    @Override
     public void changePassword(Account account, String oldPassword, String newPassword, String confirmPassword) {
         if (checkChangePassword(account,oldPassword,newPassword,confirmPassword)) {
             accountRepository.changePassword(passwordEncoder.encode( newPassword ), account.getUsername());
