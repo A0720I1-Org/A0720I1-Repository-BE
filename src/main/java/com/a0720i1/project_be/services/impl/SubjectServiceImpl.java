@@ -1,6 +1,7 @@
 package com.a0720i1.project_be.services.impl;
 
 import com.a0720i1.project_be.dto.StudentResultDTO;
+import com.a0720i1.project_be.dto.teacher.TeacherScheduleDTO;
 import com.a0720i1.project_be.models.Subject;
 import com.a0720i1.project_be.repositories.SubjectRepository;
 import com.a0720i1.project_be.repositories.SubjectResultRepository;

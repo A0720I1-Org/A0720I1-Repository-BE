@@ -74,7 +74,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
             "limit ?1,5", nativeQuery = true)
     List<TeacherListDTO> searchTeacherByNameAndAddress(int index, String name, String address);
 
-
     // Đôn: Thêm mới giáo viên
     @Transactional
     @Modifying
