@@ -33,16 +33,9 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
     List<HomeRoomClassDTO> getPageStudentByTeacherUsername(String username, int index);
 
     //Duy
-    @Query(value = "SELECT student_class.id from student_class\n" +
-            "left join teacher on teacher.id = student_class.teacher_id \n" +
-            "left join account on teacher.account_id = account.id\n" +
-            "where account.username= ?1", nativeQuery = true)
-    Integer getIdClassByUsernameTeacher(String username);
-
-    //Duy
     @Query(value = "select student.id, student.name,student.image_url as imageUrl, student.birthday,student.gender, student.hometown, student.religion, student.ethnicity, student.email from student \n" +
             "where student.id =?1", nativeQuery = true)
-    StudentHomeroomClassDTO getInfo(int id);
+    StudentHomeroomClassDTO getInfoStudent(int id);
 
     //Duy
     @Query(value = "select student.id, student.name,student.image_url as imageUrl, student.birthday,student.gender, student.hometown, student.religion, student.ethnicity, student.email, student_class.name as className from student \n" +

@@ -71,7 +71,7 @@ public class TeacherController {
         return new ResponseEntity<>(teacherListDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("api/teacher/homeroom-class/list/{username}")
+    @GetMapping("api/teacher/teacher/homeroom-class/list/{username}")
     public ResponseEntity<List<HomeRoomClassDTO>> getStudentByClassId(@PathVariable String username){
         List<HomeRoomClassDTO> homeRoomClassDTOList = this.studentService.getStudentByTeacherUsername(username);
         if (homeRoomClassDTOList.isEmpty()){
@@ -80,7 +80,7 @@ public class TeacherController {
         return new ResponseEntity<>(homeRoomClassDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("api/teacher/homeroom-class/{username}")
+    @GetMapping("api/teacher/teacher/homeroom-class/{username}")
     public ResponseEntity<List<HomeRoomClassDTO>> getPageStudentByClassId(@RequestParam int index,
                                                                           @PathVariable String username) {
         List<HomeRoomClassDTO> homeRoomClassDTOList = this.studentService.getPageStudentByTeacherUsername(index, username);
@@ -90,13 +90,13 @@ public class TeacherController {
         return new ResponseEntity<>(homeRoomClassDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("api/teacher/homeroom-class/details/{id}")
+    @GetMapping("api/teacher/teacher/homeroom-class/details/{id}")
     public ResponseEntity<StudentHomeroomClassDTO> getStudentById(@PathVariable int id){
         StudentHomeroomClassDTO student = this.studentService.getInforStudent(id);
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
-    @GetMapping("api/teacher/homeroom-class/search")
+    @GetMapping("api/teacher/teacher/homeroom-class/search")
     public ResponseEntity<List<HomeRoomClassDTO>> searchStudentByName(@RequestParam("index") int index,
                                                                       @RequestParam("name") String name) {
         List<HomeRoomClassDTO> homeRoomClassDTOList = this.studentService.searchStudentByName(name, index);
@@ -106,7 +106,7 @@ public class TeacherController {
         return new ResponseEntity<>(homeRoomClassDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("api/teacher/teacher-schedule/{username}")
+    @GetMapping("api/teacher/teacher/teacher-schedule/{username}")
     public ResponseEntity<List<TeacherScheduleDTO>> getTeacherSchedule(@PathVariable String username){
         List<TeacherScheduleDTO> teacherScheduleDTOList = this.lessonService.getAllLessonByTeacherUsername(username);
         if (teacherScheduleDTOList.isEmpty()){

@@ -25,10 +25,9 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.getPageStudentByTeacherUsername(username, index);
     }
 
-
     @Override
     public StudentHomeroomClassDTO getInforStudent(int id) {
-        return studentRepository.getInfo(id);
+        return studentRepository.getInfoStudent(id);
     }
 
     @Override
