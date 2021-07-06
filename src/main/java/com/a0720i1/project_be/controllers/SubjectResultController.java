@@ -2,6 +2,7 @@ package com.a0720i1.project_be.controllers;
 
 import com.a0720i1.project_be.dto.StudentResultDTO;
 import com.a0720i1.project_be.dto.class_student.ClassListDTO;
+import com.a0720i1.project_be.dto.class_student.StudentAverageMarkDTO;
 import com.a0720i1.project_be.dto.class_student.StudentResultUpdateDTO;
 import com.a0720i1.project_be.models.ReportCard;
 import com.a0720i1.project_be.models.Subject;
@@ -52,5 +53,12 @@ public class SubjectResultController {
             subjectResultService.updateMark(seReId,claStuId,subId,studentResultDTO);
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/api/public/subject-result/average")
+    public ResponseEntity<StudentAverageMarkDTO> getAverage(@RequestParam("seReId") int seReId,
+                                                            @RequestParam("claStuId") int claStuId,
+                                                            @RequestParam("subId") int subId,
+                                                            @RequestParam("subId") int stuId) {
+        return new ResponseEntity<>(subjectResultService.getStudentAverageMark(seReId,claStuId,subId,stuId),HttpStatus.OK);
     }
 }

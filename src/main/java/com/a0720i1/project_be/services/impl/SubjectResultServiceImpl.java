@@ -1,21 +1,15 @@
 package com.a0720i1.project_be.services.impl;
 
 import com.a0720i1.project_be.dto.StudentResultDTO;
-import com.a0720i1.project_be.dto.class_student.ClassListDTO;
-import com.a0720i1.project_be.dto.class_student.StudentListDTO;
-import com.a0720i1.project_be.dto.class_student.StudentResultUpdateDTO;
-import com.a0720i1.project_be.models.Mark;
-import com.a0720i1.project_be.models.ReportCard;
-import com.a0720i1.project_be.models.Subject;
-import com.a0720i1.project_be.models.SubjectResult;
+import com.a0720i1.project_be.dto.class_student.*;
+import com.a0720i1.project_be.models.*;
 import com.a0720i1.project_be.repositories.*;
 import com.a0720i1.project_be.services.SemesterResultService;
 import com.a0720i1.project_be.services.SubjectResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SubjectResultServiceImpl implements SubjectResultService {
@@ -29,9 +23,12 @@ public class SubjectResultServiceImpl implements SubjectResultService {
     ReportCardRepository reportCardRepository ;
     @Autowired
     SemesterResultRepository semesterResultRepository ;
+    @Autowired
+    SchoolYearRepository schoolYearRepository ;
     @Override
     public List<ClassListDTO> findAllClass() {
-        return subjectResultRepository.findAllClass();
+        SchoolYear schoolYear = this.getCurrentSchoolYear();
+        return subjectResultRepository.findAllClass(schoolYear.getId());
     }
 
     @Override
@@ -113,4 +110,53 @@ public class SubjectResultServiceImpl implements SubjectResultService {
         }
         return  studentResultUpdateDTOS ;
     }
+
+    @Override
+    public SchoolYear getCurrentSchoolYear() {
+        Date date = new Date();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        if(month > 9) {
+            int beginYear = calendar.get(Calendar.YEAR);;
+            int endYear = calendar.get(Calendar.YEAR) + 1;
+            return schoolYearRepository.getSchoolYearByBeginYearAndEndYear(beginYear,endYear);
+        }
+        else return schoolYearRepository.getSchoolYearByBeginYearAndEndYear(calendar.get(Calendar.YEAR)-1,calendar.get(Calendar.YEAR));
+    }
+
+    @Override
+    public StudentAverageMarkDTO getStudentAverageMark(int semesterId, int stuClaId, int subId, int studentId) {
+        int count =  0 ;
+        double sum = 0 ;
+        double average = 1 ;
+        String subjectName = null ;
+        StudentAverageMarkDTO studentAverageMarkDTO = new StudentAverageMarkDTO();
+        List<MarkDTO> listMark = subjectResultRepository.getListMarkStudent(semesterId,stuClaId, subId,studentId);
+        for (MarkDTO markDTO: listMark) {
+            if(markDTO.getMarkCol1() != null) {
+                count += markDTO.getMultiplier();
+                sum += markDTO.getMarkCol1() * markDTO.getMultiplier();
+            }
+            if(markDTO.getMarkCol2() != null) {
+                count += markDTO.getMultiplier();
+                sum += markDTO.getMarkCol2() * markDTO.getMultiplier();
+            }
+            if(markDTO.getMarkCol3() != null) {
+                count += markDTO.getMultiplier();
+                sum += markDTO.getMarkCol3() * markDTO.getMultiplier();
+            }
+        }
+        subjectName = listMark.get(1).getSubjectName();
+        if(count == 0) {
+            studentAverageMarkDTO.setSubjectName(subjectName);
+            studentAverageMarkDTO.setAverageMark(null);
+            return studentAverageMarkDTO;
+        }
+        average = sum/count ;
+        studentAverageMarkDTO.setAverageMark(average);
+        studentAverageMarkDTO.setSubjectName(subjectName);
+        return studentAverageMarkDTO ;
+    }
+
 }

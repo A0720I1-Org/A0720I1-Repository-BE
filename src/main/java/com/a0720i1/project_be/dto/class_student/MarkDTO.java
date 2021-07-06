@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class MarkDTO {
-    Double markCol1 ;
-    Double markCol2 ;
-    Double markCol3 ;
+
+public interface MarkDTO {
+    Double getMarkCol1() ;
+    Double getMarkCol2() ;
+    Double getMarkCol3() ;
+    int getMultiplier() ;
+    String getSubjectName() ;
 }
