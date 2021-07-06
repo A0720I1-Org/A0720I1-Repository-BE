@@ -37,7 +37,7 @@ public class TeacherController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @GetMapping("/api/public")
+    @GetMapping("/api/public/teacher")
     public ResponseEntity<List<TeacherListDTO>> getPageAllTeacher(int index) {
         List<TeacherListDTO> teacherPageListDTOList = this.teacherService.getPageAllTeacher(index);
         if (teacherPageListDTOList.isEmpty()) {
