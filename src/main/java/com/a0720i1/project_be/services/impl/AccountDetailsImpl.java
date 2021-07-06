@@ -18,7 +18,7 @@ public class AccountDetailsImpl implements UserDetails {
     private String password;
     private boolean enabled;
 
-    List<GrantedAuthority> authorities;
+    private List<GrantedAuthority> authorities;
 
     public AccountDetailsImpl() {
     }

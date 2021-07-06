@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @ControllerAdvice
 @RestController
@@ -37,11 +35,16 @@ public class CustomizeResponseEntityExceptionHandler extends ResponseEntityExcep
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                   HttpStatus status, WebRequest request) {
-        List<String> details = new ArrayList<>();
-        for (ObjectError error : ex.getBindingResult().getAllErrors()) {
-            details.add(error.getDefaultMessage());
+        Map<String, Object> body = new LinkedHashMap<>();
+        Map<String, String> errors = new LinkedHashMap<>();
+        body.put("timestamp", new Date());
+        body.put("status", status.value());
+
+        for(FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.put(error.getField(), error.getDefaultMessage());
         }
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Validate failed", details);
-        return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
+
+        body.put("errors", errors);
+        return new ResponseEntity<>(body, new HttpHeaders(), status);
     }
 }

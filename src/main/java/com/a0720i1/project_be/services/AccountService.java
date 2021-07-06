@@ -5,7 +5,6 @@ import com.a0720i1.project_be.dto.teacher.TeacherViewDTO;
 import com.a0720i1.project_be.models.Account;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public interface AccountService {

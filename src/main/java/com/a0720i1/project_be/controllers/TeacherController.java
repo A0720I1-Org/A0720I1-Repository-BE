@@ -21,7 +21,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class TeacherController {
     @Autowired
     private TeacherServiceImpl teacherService;
