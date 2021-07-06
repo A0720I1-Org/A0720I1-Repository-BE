@@ -9,9 +9,8 @@ import com.a0720i1.project_be.dto.student.StudentViewDTO;
 import java.util.List;
 
 public interface StudentService {
-    List<StudentListDTO> getPageAllStudent(int index);
 
-    List<StudentListDTO> getAllStudent();
+    List<StudentListDTO> getAllStudent(int classId);
 
     List<StudentListDTO> searchStudentByNameAndHometown(int index, String name, String hometown);
 
@@ -23,4 +22,5 @@ public interface StudentService {
 
     void updateStudent(StudentUpdateDTO studentUpdateDTO);
 
+    List<StudentListDTO> getAllStudentByClassId(int classId, int index);
 }

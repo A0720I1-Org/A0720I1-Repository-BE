@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.repositories;
 
+import com.a0720i1.project_be.dto.student.StudentClass;
 import com.a0720i1.project_be.dto.student.StudentDeleteDTO;
 import com.a0720i1.project_be.dto.student.StudentListDTO;
 import com.a0720i1.project_be.dto.student.StudentViewDTO;
@@ -15,19 +16,21 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer> {
-    @Query(value = "select student.id, student.name,student.image_url, student.birthday, student.hometown from student left join account on student.account_id = account.id\n" +
-            "left join account_role on account_role.account_id = account.id\n" +
-            "left join role on role.id = account_role.role_id\n" +
-            "where role.id = 3", nativeQuery = true)
-    List<StudentListDTO> getAllStudent();
+    @Query(value = "select student.id, student.name,student.image_url, student.birthday, student.hometown\n" +
+            "from student\n" +
+            "left join report_card on report_card.student_id = student.id\n" +
+            "where report_card.student_class_id = ?1", nativeQuery = true)
+    List<StudentListDTO> getAllStudent(int classId);
 
-    @Query(value = "select student.id, student.name,student.image_url, student.birthday, student.hometown from student \n" +
-            "left join account on student.account_id = account.id\n" +
-            "left join account_role on account_role.account_id = account.id\n" +
-            "left join role on role.id = account_role.role_id\n" +
-            "where role.id = 3\n" +
-            "limit ?1,5 ", nativeQuery = true)
-    List<StudentListDTO> getPageAllStudent(int index);
+
+    @Query(value = "select student.id, student.name,student.image_url, student.birthday, student.hometown\n" +
+            "from student\n" +
+            "join report_card on report_card.student_id = student.id\n" +
+            "join student_class on student_class.id = report_card.student_class_id\n" +
+            "where student_class.id = ?1\n"+
+            "limit ?2,5", nativeQuery = true)
+    List<StudentListDTO> getAllStudentByClassId(int classId, int index);
+
 
     @Query(value = "select * from student\n" +
             "where student.id = ?1", nativeQuery = true)
@@ -50,12 +53,12 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "delete from student\n" +
-            "where student.id = ?1", nativeQuery = true)
+    @Query(value = "delete from report_card\n" +
+            "where report_card.student_id = ?1", nativeQuery = true)
     void deleteStudent(int id);
 
-    @Query(value = "select * from student\n" +
-            "where student.id = ?1", nativeQuery = true)
+    @Query(value = "select * from report_card\n" +
+            "where report_card.student_id = ?1", nativeQuery = true)
     StudentDeleteDTO getStudentFullById(int id);
 
     @Query(value = "select student.id, student.name, student.image_url, student.birthday, student.hometown from student\n" +
@@ -65,4 +68,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "where student.name like %?2% and student.hometown like %?3% \n" +
             "limit ?1,5", nativeQuery = true)
     List<StudentListDTO> searchStudentByNameAndHometown(int index, String name, String hometown);
+
+
 }

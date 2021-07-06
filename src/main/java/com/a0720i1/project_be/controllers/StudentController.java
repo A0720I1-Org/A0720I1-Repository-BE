@@ -61,25 +61,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/api/student")
-    public ResponseEntity<List<StudentListDTO>> getPageAllStudent(int index) {
-        List<StudentListDTO> studentListPage = this.studentService.getPageAllStudent(index);
-        if (studentListPage.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(studentListPage, HttpStatus.OK);
-    }
-
-    @GetMapping("/api/student/list")
-    public ResponseEntity<List<StudentListDTO>> getAllStudent() {
-        List<StudentListDTO> studentListDTOS = this.studentService.getAllStudent();
-        if (studentListDTOS.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(studentListDTOS, HttpStatus.OK);
-    }
-
-    @GetMapping("/api/student/find/{id}")
+    @GetMapping("/api/student/student/find-student/{id}")
     public ResponseEntity<StudentViewDTO> getStudentById(@PathVariable int id) {
         StudentViewDTO studentViewDTO = this.studentService.getStudentById(id);
         if (studentViewDTO == null) {
@@ -88,13 +70,13 @@ public class StudentController {
         return new ResponseEntity<>(studentViewDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/api/student/update")
+    @PutMapping("/api/teacher/student/update-student")
     public ResponseEntity<StudentUpdateDTO> updateStudent(@RequestBody StudentUpdateDTO studentUpdateDTO) {
         studentService.updateStudent(studentUpdateDTO);
         return new ResponseEntity<>(studentUpdateDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/api/student/findDelete/{id}")
+    @GetMapping("/api/teacher/student/find-delete-student/{id}")
     public ResponseEntity<StudentDeleteDTO> getStudentFullById(@PathVariable int id) {
         StudentDeleteDTO studentDeleteDTO = this.studentService.getStudentFullById(id);
         if (studentDeleteDTO == null) {
@@ -104,13 +86,13 @@ public class StudentController {
     }
 
 
-    @DeleteMapping("/api/student/delete/{id}")
+    @DeleteMapping("/api/teacher/student/delete-student/{id}")
     public ResponseEntity<?> deleteStudent(@PathVariable int id) {
         this.studentService.deleteStudent(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/api/student/search")
+    @GetMapping("/api/student/student/search-student")
     public ResponseEntity<List<StudentListDTO>> searchStudentByNameAndHometown(@RequestParam int index ,
                                                                                @RequestParam String name,
                                                                                @RequestParam String hometown){
@@ -119,5 +101,24 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(searchStudent, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/student/student/lists-student")
+    public ResponseEntity<List<StudentListDTO>> getAllStudentByClassId(@RequestParam int classId,
+                                                                       @RequestParam int index) {
+        List<StudentListDTO> listStudentByClassId = this.studentService.getAllStudentByClassId(classId,index);
+        if (listStudentByClassId.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(listStudentByClassId, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/student/student/list-student")
+    public ResponseEntity<List<StudentListDTO>> getAllStudent(@RequestParam int classId) {
+        List<StudentListDTO> studentListDTOS = this.studentService.getAllStudent(classId);
+        if (studentListDTOS.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(studentListDTOS, HttpStatus.OK);
     }
 }

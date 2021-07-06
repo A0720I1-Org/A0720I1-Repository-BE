@@ -17,14 +17,10 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    @Override
-    public List<StudentListDTO> getPageAllStudent(int index) {
-        return this.studentRepository.getPageAllStudent(index);
-    }
 
     @Override
-    public List<StudentListDTO> getAllStudent() {
-        return this.studentRepository.getAllStudent();
+    public List<StudentListDTO> getAllStudent(int classId) {
+        return this.studentRepository.getAllStudent(classId);
     }
 
     @Override
@@ -54,6 +50,11 @@ public class StudentServiceImpl implements StudentService {
                 studentUpdateDTO.getGender(), studentUpdateDTO.getHometown(), studentUpdateDTO.getEthnicity(),
                 studentUpdateDTO.getReligion(), studentUpdateDTO.getImageUrl(), studentUpdateDTO.getEmail(),
                 studentUpdateDTO.getId());
+    }
+
+    @Override
+    public List<StudentListDTO> getAllStudentByClassId(int classId,int index) {
+        return studentRepository.getAllStudentByClassId(classId,index);
     }
 
 
