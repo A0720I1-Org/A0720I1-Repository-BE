@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     // Đôn
-//    @Query(value = "SELECT * FROM account WHERE account.username = ?1 limit 1", nativeQuery = true)
+    //  @Query(value = "SELECT * FROM account WHERE account.username = ?1 limit 1", nativeQuery = true)
     Account findAccountByUsername(String username);
 
     // Đôn: Tìm kiếm id account bằng username
-    @Query(value = "select id from account where username = ?1 limit 1",nativeQuery = true)
+    @Query(value = "select id from account where username = ?1 limit 1", nativeQuery = true)
     int findIdUserByUsername(String username);
 
     //Đôn: Thêm mới tài khoản
@@ -27,12 +27,14 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value ="UPDATE account SET password = :password WHERE account_name = :accountName",nativeQuery = true)
+    @Query(value = "UPDATE account SET password = :password WHERE account_name = :accountName", nativeQuery = true)
     void changePassword(@Param("password") String encodePw, @Param("accountName") String accountName);
-    @Query(value ="select * from teacher where teacher.account_id = ?1",nativeQuery = true)
+
+    @Query(value = "select * from teacher where teacher.account_id = ?1", nativeQuery = true)
     TeacherViewDTO getInfoAccount(Integer accountId);
+
     @Transactional
     @Modifying
-    @Query(value = "update teacher as t set t.address = ?1, t.hometown = ?2, t.position = ?3,t.level =?4 ,t.image_url=?5 where t.account_id = ?6",nativeQuery = true)
+    @Query(value = "update teacher as t set t.address = ?1, t.hometown = ?2, t.position = ?3,t.level =?4 ,t.image_url=?5 where t.account_id = ?6", nativeQuery = true)
     void updadeInfoAccount(String address, String hometown, String position, String level, String imgUrl, int accountId);
 }

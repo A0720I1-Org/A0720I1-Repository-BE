@@ -37,7 +37,7 @@ public class TeacherController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @GetMapping("")
+    @GetMapping("/api/public")
     public ResponseEntity<List<TeacherListDTO>> getPageAllTeacher(int index) {
         List<TeacherListDTO> teacherPageListDTOList = this.teacherService.getPageAllTeacher(index);
         if (teacherPageListDTOList.isEmpty()) {
@@ -46,7 +46,7 @@ public class TeacherController {
         return new ResponseEntity<>(teacherPageListDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("/lists")
+    @GetMapping("/api/public/teacher/lists")
     public ResponseEntity<List<TeacherListDTO>> getListTeacher() {
         List<TeacherListDTO> teacherListDTOList = this.teacherService.getListTeacher();
         if (teacherListDTOList.isEmpty()) {
@@ -55,7 +55,7 @@ public class TeacherController {
         return new ResponseEntity<>(teacherListDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/api/public/teacher/find/{id}")
     public ResponseEntity<TeacherViewDTO> getTeacherById(@PathVariable int id) {
         TeacherViewDTO teacherViewDTO = this.teacherService.getTeacherById(id);
         if (teacherViewDTO == null) {
@@ -64,13 +64,13 @@ public class TeacherController {
         return new ResponseEntity<>(teacherViewDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/api/admin/teacher/update")
     public ResponseEntity<TeacherUpdateDTO> updateTeacher(@RequestBody TeacherUpdateDTO teacherUpdateDTO) {
         this.teacherService.updateTeacher(teacherUpdateDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/api/public/search")
     public ResponseEntity<List<TeacherListDTO>> searchTeacherByNameAndAddress(@RequestParam int index,
                                                                               @RequestParam String name,
                                                                               @RequestParam String address) {
