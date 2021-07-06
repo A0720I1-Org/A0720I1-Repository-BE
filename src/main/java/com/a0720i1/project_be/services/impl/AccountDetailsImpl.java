@@ -1,7 +1,6 @@
 package com.a0720i1.project_be.services.impl;
 
 import com.a0720i1.project_be.models.Account;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +15,7 @@ public class AccountDetailsImpl implements UserDetails {
     private String password;
     private boolean enabled;
 
-    List<GrantedAuthority> authorities;
+    private List<GrantedAuthority> authorities;
 
     public AccountDetailsImpl() {
     }
