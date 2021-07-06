@@ -14,10 +14,8 @@ import java.util.List;
 
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
-
-
-
     // Write by Don
+    @Query(value = "select * from teacher where teacher.email = ?1 limit 1", nativeQuery = true)
     Teacher getTeacherByEmail(String email);
 
     // Write by Don
