@@ -17,8 +17,8 @@ public class TeacherController {
     @Autowired
     private TeacherServiceImpl teacherService;
 
-    @GetMapping("")
-    public ResponseEntity<List<TeacherListDTO>> getPageAllTeacher(int index) {
+    @GetMapping("/{index}")
+    public ResponseEntity<List<TeacherListDTO>> getPageAllTeacher(@PathVariable("index") int index){
         List<TeacherListDTO> teacherPageListDTOList = this.teacherService.getPageAllTeacher(index);
         if (teacherPageListDTOList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -18,8 +18,8 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
             "left join account on teacher.account_id = account.id\n" +
             "left join account_role on account_role.account_id = account.id\n" +
             "left join role on role.id = account_role.role_id\n" +
-            "where role.id = 2 " +
-            "limit ?1,5", nativeQuery = true)
+            "where role.id = 2 and \n " +
+            "limit = ?1,5", nativeQuery = true)
     List<TeacherListDTO> getPageAllTeacher(int index);
 
     @Query(value = "select teacher.id, teacher.name,teacher.address, teacher.birthday, teacher.phone from teacher " +

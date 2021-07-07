@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public interface AccountService {
     Account findByUsername(String username);
     int findIdByUsername(String username);
+    void createAccount(String username, String password, int isEnable);
     void changePassword(Account account, String oldPassword, String newPassword, String confirmPassword);
     boolean checkChangePassword(Account account, String oldPassword, String newPassword, String confirmPassword);
     TeacherViewDTO getInfoAccount(String username);
