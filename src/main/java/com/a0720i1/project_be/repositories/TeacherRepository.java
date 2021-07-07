@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.repositories;
 
+import com.a0720i1.project_be.dto.schedule.ScheduleTeacherDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherListDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherViewDTO;
 import com.a0720i1.project_be.models.Teacher;
@@ -14,6 +15,17 @@ import java.util.List;
 
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
+    // Write by Don
+    Teacher getTeacherByEmail(String email);
+
+    // Write by Don
+    @Query(value = "select id from account where username = ?1",nativeQuery = true)
+    List<Integer> findIdUserByUsername(String username);
+
+    // Don
+    @Query(value = "select id as teacherId, name as teacherName from teacher", nativeQuery = true)
+    List<ScheduleTeacherDTO> findAllTeacherForSchedule();
+
     @Query(value = "select teacher.id, teacher.name,teacher.address, teacher.birthday, teacher.phone from teacher " +
             "left join account on teacher.account_id = account.id\n" +
             "left join account_role on account_role.account_id = account.id\n" +
@@ -50,4 +62,12 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
             "where teacher.name like %?2% and teacher.address like %?3% \n" +
             "limit ?1,5", nativeQuery = true)
     List<TeacherListDTO> searchTeacherByNameAndAddress(int index, String name, String address);
+
+
+    // Đôn: Thêm mới giáo viên
+    @Transactional
+    @Modifying
+    @Query(value = "insert into teacher(name, birthday, gender, email, image_url, account_id) values (?1, ?2, ?3, ?4, ?5, ?6)", nativeQuery = true)
+    void createTeacherDTO(String name, LocalDate birthday, String gender, String email, String imageUrl, int accountId);
+
 }
