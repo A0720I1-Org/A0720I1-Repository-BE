@@ -12,5 +12,4 @@ import java.util.List;
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     @Query(value = "select subject.id as subjectId, subject.name as subjectName from subject", nativeQuery = true)
     List<ScheduleSubjectDTO> getAllSubject();
-
 }

@@ -5,7 +5,6 @@ import com.a0720i1.project_be.dto.teacher.TeacherViewDTO;
 import com.a0720i1.project_be.models.Account;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public interface AccountService {
@@ -16,4 +15,6 @@ public interface AccountService {
     boolean checkChangePassword(Account account, String oldPassword, String newPassword, String confirmPassword);
     TeacherViewDTO getInfoAccount(String username);
     void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO, String username);
+    String getMailByUsername(String username);
+    void changePasswordByForgot(String username,String newPw);
 }

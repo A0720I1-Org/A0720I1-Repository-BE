@@ -1,5 +1,4 @@
 package com.a0720i1.project_be.controllers;
-
 import com.a0720i1.project_be.dto.teacher.TeacherCreateDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherListDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherUpdateDTO;
@@ -16,12 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
+import com.a0720i1.project_be.services.impl.LessonServiceImpl;
+import com.a0720i1.project_be.services.impl.StudentServiceImpl;
+import com.a0720i1.project_be.dto.HomeRoomClassDTO;
+import com.a0720i1.project_be.dto.StudentHomeroomClassDTO;
+import com.a0720i1.project_be.dto.teacher.TeacherScheduleDTO;
 
 @RestController
-@CrossOrigin(origins = "*")
 public class TeacherController {
     @Autowired
     private TeacherServiceImpl teacherService;
@@ -38,7 +40,13 @@ public class TeacherController {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @GetMapping("")
+    @Autowired
+    private StudentServiceImpl studentService;
+
+    @Autowired
+    private LessonServiceImpl lessonService;
+
+    @GetMapping("/api/public/teacher")
     public ResponseEntity<List<TeacherListDTO>> getPageAllTeacher(int index) {
         List<TeacherListDTO> teacherPageListDTOList = this.teacherService.getPageAllTeacher(index);
         if (teacherPageListDTOList.isEmpty()) {
@@ -47,7 +55,7 @@ public class TeacherController {
         return new ResponseEntity<>(teacherPageListDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("/lists")
+    @GetMapping("/api/public/teacher/lists")
     public ResponseEntity<List<TeacherListDTO>> getListTeacher() {
         List<TeacherListDTO> teacherListDTOList = this.teacherService.getListTeacher();
         if (teacherListDTOList.isEmpty()) {
@@ -56,7 +64,7 @@ public class TeacherController {
         return new ResponseEntity<>(teacherListDTOList, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/api/public/teacher/find/{id}")
     public ResponseEntity<TeacherViewDTO> getTeacherById(@PathVariable int id) {
         TeacherViewDTO teacherViewDTO = this.teacherService.getTeacherById(id);
         if (teacherViewDTO == null) {
@@ -65,13 +73,13 @@ public class TeacherController {
         return new ResponseEntity<>(teacherViewDTO, HttpStatus.OK);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/api/admin/teacher/update")
     public ResponseEntity<TeacherUpdateDTO> updateTeacher(@RequestBody TeacherUpdateDTO teacherUpdateDTO) {
         this.teacherService.updateTeacher(teacherUpdateDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/api/public/search")
     public ResponseEntity<List<TeacherListDTO>> searchTeacherByNameAndAddress(@RequestParam int index,
                                                                               @RequestParam String name,
                                                                               @RequestParam String address) {
@@ -96,5 +104,49 @@ public class TeacherController {
         teacherService.createTeacher(teacherCreateDTO.getName().replaceAll("\\s\\s+", " ").trim(), teacherCreateDTO.getBirthday(),teacherCreateDTO.getGender(),
                 teacherCreateDTO.getEmail(), teacherCreateDTO.getImageUrl(), accountId);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("api/teacher/teacher/homeroom-class/list/{username}")
+    public ResponseEntity<List<HomeRoomClassDTO>> getStudentByClassId(@PathVariable String username){
+        List<HomeRoomClassDTO> homeRoomClassDTOList = this.studentService.getStudentByTeacherUsername(username);
+        if (homeRoomClassDTOList.isEmpty()){
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(homeRoomClassDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("api/teacher/teacher/homeroom-class/{username}")
+    public ResponseEntity<List<HomeRoomClassDTO>> getPageStudentByClassId(@RequestParam int index,
+                                                                          @PathVariable String username) {
+        List<HomeRoomClassDTO> homeRoomClassDTOList = this.studentService.getPageStudentByTeacherUsername(index, username);
+        if (homeRoomClassDTOList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(homeRoomClassDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("api/teacher/teacher/homeroom-class/details/{id}")
+    public ResponseEntity<StudentHomeroomClassDTO> getStudentById(@PathVariable int id){
+        StudentHomeroomClassDTO student = this.studentService.getInforStudent(id);
+        return new ResponseEntity<>(student, HttpStatus.OK);
+    }
+
+    @GetMapping("api/teacher/teacher/homeroom-class/search")
+    public ResponseEntity<List<HomeRoomClassDTO>> searchStudentByName(@RequestParam("index") int index,
+                                                                      @RequestParam("name") String name) {
+        List<HomeRoomClassDTO> homeRoomClassDTOList = this.studentService.searchStudentByName(name, index);
+        if (homeRoomClassDTOList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(homeRoomClassDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping("api/teacher/teacher/teacher-schedule/{username}")
+    public ResponseEntity<List<TeacherScheduleDTO>> getTeacherSchedule(@PathVariable String username) {
+        List<TeacherScheduleDTO> teacherScheduleDTOList = this.lessonService.getAllLessonByTeacherUsername(username);
+        if (teacherScheduleDTOList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(teacherScheduleDTOList, HttpStatus.OK);
     }
 }

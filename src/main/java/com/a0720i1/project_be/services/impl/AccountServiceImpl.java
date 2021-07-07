@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
@@ -63,13 +61,23 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO, String username) {
+    public void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO,String username) {
         Account account = accountRepository.findAccountByUsername(username);
         if(account == null) {
             return ;
         }else {
-             accountRepository.updadeInfoAccount(teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),
-                     teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),teacherUpdateDTO.getPosition(),account.getId());
+            accountRepository.updadeInfoAccount(teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),
+                    teacherUpdateDTO.getPosition(),teacherUpdateDTO.getLevel(),teacherUpdateDTO.getPhone(),teacherUpdateDTO.getEmail(),teacherUpdateDTO.getImageUrl(),account.getId());
         }
+    }
+
+    @Override
+    public String getMailByUsername(String username) {
+        return accountRepository.getEmail(username);
+    }
+
+    @Override
+    public void changePasswordByForgot(String username, String newPw) {
+        accountRepository.changePasswordByForgot(username,passwordEncoder.encode(newPw));
     }
 }
