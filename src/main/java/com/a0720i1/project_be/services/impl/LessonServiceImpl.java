@@ -11,9 +11,21 @@ import java.util.List;
 @Service
 public class LessonServiceImpl implements LessonService {
     @Autowired
-    private LessonRepository lessonRepository;
+    LessonRepository lessonRepository;
+
+    @Override
+    public void deleteAllLessonByScheduleId(int id) {
+        lessonRepository.deleteAllLessonByScheduleId(id);
+    }
+
+    @Override
+    public void insertNewLesson(int lessonTimeId, int scheduleId, int subjectId, int teacherId) {
+        lessonRepository.insertNewLesson(lessonTimeId, scheduleId, subjectId, teacherId);
+    }
+
     @Override
     public List<TeacherScheduleDTO> getAllLessonByTeacherUsername(String username) {
         return lessonRepository.getAllLessonByTeacherUsername(username);
+
     }
 }
