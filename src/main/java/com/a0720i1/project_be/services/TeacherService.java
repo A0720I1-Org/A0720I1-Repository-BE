@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.services;
 
+import com.a0720i1.project_be.dto.schedule.ScheduleTeacherDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherListDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherUpdateDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherViewDTO;
@@ -22,4 +23,6 @@ public interface TeacherService {
     void createTeacher(String name, LocalDate birthday, String gender, String email, String imageUrl, int accountId);
 
     Teacher getTeacherByEmail(String email);
+
+    List<ScheduleTeacherDTO> getAllTeacherForSchedule();
 }
