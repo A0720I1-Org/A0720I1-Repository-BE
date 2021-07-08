@@ -65,13 +65,4 @@ public interface SubjectResultRepository extends JpaRepository<SubjectResult,Int
             "left join report_card on report_card.student_id = student.id\n" +
             "where report_card.student_class_id = ?1 order by student.name asc",nativeQuery = true)
     List<StudentListDTO> getStudentList(int stuClaId);
-    @Modifying
-    @Query(value = "select mark.mark_col1 as markCol1,mark.mark_col2 as markCol2 ,mark.mark_col3 as markCol3,mark.multiplier ,subject.name as subjectName from  mark \n" +
-            "            left join subject_result on mark.subject_result_id = subject_result.id\n" +
-            "            left join subject on subject_result.subject_id = subject.id\n" +
-            "            left join semester_result on subject_result.semester_result_id = semester_result.id\n" +
-            "            left join report_card on semester_result.report_card_id = report_card.id\n" +
-            "            left join student on report_card.student_id = student.id\n" +
-            "            where  semester_result.semester = ?1 and report_card.student_class_id = ?2 and subject.id = ?3 and student.id = ?4",nativeQuery = true)
-    List<MarkDTO> getListMarkStudent(int semId, int stuClaId, int subId , int stuId);
 }

@@ -25,5 +25,5 @@ public interface SubjectResultService {
     ReportCard getReportCard(int stuClaId,int stuId);
     List<StudentResultUpdateDTO> getListStudentResult(int semesterId,int stuClaId,int subId);
     SchoolYear getCurrentSchoolYear();
-    StudentAverageMarkDTO getStudentAverageMark(int semesterId,int stuClaId,int subId,int studentId);
+    List<StudentAverageMarkDTO> getStudentAverageMark(int semesterId,int stuClaId);
 }
