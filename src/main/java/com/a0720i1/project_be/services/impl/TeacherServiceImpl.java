@@ -35,10 +35,18 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void updateTeacher(TeacherUpdateDTO teacherUpdateDTO) {
-        this.teacherRepository.updateTeacherDTO(teacherUpdateDTO.getAddress(), teacherUpdateDTO.getBirthday(),
-                teacherUpdateDTO.getEmail(), teacherUpdateDTO.getGender(), teacherUpdateDTO.getHometown(),
-                teacherUpdateDTO.getName(), teacherUpdateDTO.getPhone(), teacherUpdateDTO.getLevel(),
-                teacherUpdateDTO.getPosition(), teacherUpdateDTO.getImageUrl(), teacherUpdateDTO.getId());
+        this.teacherRepository.updateTeacherDTO(
+                teacherUpdateDTO.getAddress().replaceAll("\\s{2,}", " "),
+                teacherUpdateDTO.getBirthday(),
+                teacherUpdateDTO.getEmail(),
+                teacherUpdateDTO.getGender(),
+                teacherUpdateDTO.getHometown().replaceAll("\\s{2,}", " "),
+                teacherUpdateDTO.getName().replaceAll("\\s{2,}", " "),
+                teacherUpdateDTO.getPhone(),
+                teacherUpdateDTO.getLevel(),
+                teacherUpdateDTO.getPosition().replaceAll("\\s{2,}", " "),
+                teacherUpdateDTO.getImageUrl(),
+                teacherUpdateDTO.getId());
     }
 
     @Override
