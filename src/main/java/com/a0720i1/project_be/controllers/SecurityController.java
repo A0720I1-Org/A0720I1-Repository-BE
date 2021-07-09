@@ -73,7 +73,7 @@ public class SecurityController {
             return new ResponseEntity<>(HttpStatus.OK);
         }else {
             return ResponseEntity.badRequest()
-                    .body("Mật khẩu không đúng");
+                    .body("Mật khẩu cũ không chính xác");git
         }
 
     }
