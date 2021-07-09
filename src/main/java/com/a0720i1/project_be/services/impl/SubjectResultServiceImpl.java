@@ -38,11 +38,6 @@ public class SubjectResultServiceImpl implements SubjectResultService {
     }
 
     @Override
-    public List<StudentResultDTO> findStudentResult(int semesterId, int stuClaId, int subId) {
-        return subjectResultRepository.findStudentResult(semesterId, stuClaId, subId);
-    }
-
-    @Override
     public void updateMark(int semesterId, int stuClaId, int subId, StudentResultUpdateDTO studentResultDTO) {
         Integer markId = this.getMarkId(semesterId, stuClaId, subId, studentResultDTO);
         if (studentResultDTO.getMultiplier() == 3) {

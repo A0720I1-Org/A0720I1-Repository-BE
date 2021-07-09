@@ -60,7 +60,7 @@ public class SubjectResultController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/api/public/subject-result/average")
+    @GetMapping("/api/teacher/subject-result/average")
     public ResponseEntity<List<StudentAverageMarkDTO>> getAverage(@RequestParam("seReId") int seReId,
                                                             @RequestParam("claStuId") int claStuId) {
         return new ResponseEntity<>(subjectResultService.getStudentAverageMark(seReId,claStuId),HttpStatus.OK);

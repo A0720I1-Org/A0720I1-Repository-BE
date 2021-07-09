@@ -15,7 +15,6 @@ import java.util.List;
 public interface SubjectResultService {
     List<ClassListDTO> findAllClass();
     List<Subject> findAllSubject();
-    List<StudentResultDTO> findStudentResult(int semesterId,int stuClaId,int subId);
     void updateMark(int semesterId,int stuClaId,int subId, StudentResultUpdateDTO studentResultDTO);
     Integer getMarkId(int semesterId,int stuClaId,int subId, StudentResultUpdateDTO studentResultDTO);
     int getSubjectResultId(int semId,int subId);
