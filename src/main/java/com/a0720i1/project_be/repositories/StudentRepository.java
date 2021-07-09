@@ -16,14 +16,14 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer> {
-    @Query(value = "select student.id, student.name,student.image_url, student.birthday, student.hometown\n" +
+    @Query(value = "select student.id, student.name,student.email, student.birthday, student.hometown\n" +
             "from student\n" +
             "left join report_card on report_card.student_id = student.id\n" +
             "where report_card.student_class_id = ?1", nativeQuery = true)
     List<StudentListDTO> getAllStudent(int classId);
 
 
-    @Query(value = "select student.id, student.name,student.image_url, student.birthday, student.hometown\n" +
+    @Query(value = "select student.id, student.name,student.email, student.birthday, student.hometown\n" +
             "from student\n" +
             "join report_card on report_card.student_id = student.id\n" +
             "join student_class on student_class.id = report_card.student_class_id\n" +
@@ -57,17 +57,19 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
             "where report_card.student_id = ?1", nativeQuery = true)
     void deleteStudent(int id);
 
-    @Query(value = "select * from report_card\n" +
-            "where report_card.student_id = ?1", nativeQuery = true)
+    @Query(value = "select s.id , s.name, s.birthday,s.hometown from student as s\n" +
+            "left join report_card on report_card.student_id = s.id\n"+
+            "where report_card.id = ?1", nativeQuery = true)
     StudentDeleteDTO getStudentFullById(int id);
 
-    @Query(value = "select student.id, student.name, student.image_url, student.birthday, student.hometown from student\n" +
+    @Query(value = "select student.id, student.name, student.email, student.birthday, student.hometown from student\n" +
             "left join account on student.account_id = account.id\n" +
             "left join account_role on account_role.account_id = account.id\n" +
             "left join role on role.id = account_role.role_id\n" +
             "where student.name like %?2% and student.hometown like %?3% \n" +
             "limit ?1,5", nativeQuery = true)
     List<StudentListDTO> searchStudentByNameAndHometown(int index, String name, String hometown);
+
 
 
 }
