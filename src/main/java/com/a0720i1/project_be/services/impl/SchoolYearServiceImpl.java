@@ -16,5 +16,10 @@ public class SchoolYearServiceImpl implements SchoolYearService {
     public List<SchoolYear> getAll() {
         return schoolYearRepository.findAll();
     }
+
+    @Override
+    public SchoolYear getById(int id) {
+        return schoolYearRepository.getById(id);
+    }
 }
 
