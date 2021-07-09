@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public interface StudentListDTO {
     int getId() ;
     String getName() ;
-    String getImageUrl() ;
+    String getEmail() ;
     LocalDate getBirthday();
     String getHometown();
 }
