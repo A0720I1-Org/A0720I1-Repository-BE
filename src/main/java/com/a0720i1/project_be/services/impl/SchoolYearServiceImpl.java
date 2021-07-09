@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class SchoolYearServiceImpl implements SchoolYearService {
-
     @Autowired
-    private SchoolYearRepository schoolYearRepository;
+    SchoolYearRepository schoolYearRepository;
     @Override
     public List<SchoolYear> getAll() {
         return schoolYearRepository.findAll();
@@ -22,3 +22,4 @@ public class SchoolYearServiceImpl implements SchoolYearService {
         return schoolYearRepository.getById(id);
     }
 }
+

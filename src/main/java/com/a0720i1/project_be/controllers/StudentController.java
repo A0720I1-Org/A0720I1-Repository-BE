@@ -31,7 +31,7 @@ public class StudentController {
     @Autowired
     private StudentClassService studentClassService;
 
-    @GetMapping("/api/public/school-year/get-school-year-list")
+    @GetMapping("/api/public/student/school-year/get-school-year-list")
     public ResponseEntity<List<SchoolYear>> getAllSchoolYear() {
         List<SchoolYear> schoolYearList = this.schoolYearService.getAll();
         if (schoolYearList == null) {
@@ -41,7 +41,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/api/public/grade/get-grade-list")
+    @GetMapping("/api/public/student/grade/get-grade-list")
     public ResponseEntity<List<Grade>> getAllGrade() {
         List<Grade> gradeList = this.gradeService.getAll();
         if (gradeList == null) {
@@ -51,7 +51,7 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/api/public/class/get-class-list-by-year-grade")
+    @PostMapping("/api/public/student/class/get-class-list-by-year-grade")
     public ResponseEntity<List<StudentClass>> getAllClasses(@RequestBody ClassSearchDTO classSearchDTO) {
         List<StudentClass> studentClassList = this.studentClassService.getAll(classSearchDTO.getYearId(), classSearchDTO.getGradeId());
         if (studentClassList == null) {

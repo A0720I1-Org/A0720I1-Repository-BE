@@ -7,6 +7,7 @@ import com.a0720i1.project_be.jwt.JwtUtility;
 import com.a0720i1.project_be.jwt.LoginRequest;
 import com.a0720i1.project_be.models.Account;
 import com.a0720i1.project_be.services.AccountService;
+import com.a0720i1.project_be.services.impl.AccountDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,17 +16,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/public")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SecurityController {
     @Autowired
     private JwtUtility jwtUtility;
@@ -33,8 +32,7 @@ public class SecurityController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private AccountService accountService;
-
-    @PostMapping("/login")
+    @PostMapping("/api/public/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
         Authentication authentication;
         try {
@@ -50,41 +48,42 @@ public class SecurityController {
             }
 
         }
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtility.generateJwtToken(loginRequest.getUsername());
-//        AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-////        List<String> roles = userDetails.getAuthorities().stream()
-////                .map(GrantedAuthority::getAuthority)
-////                .collect(Collectors.toList());
-        Account account = accountService.findByUsername(loginRequest.getUsername());
-        List<String> roles = account.getAccountRoleList().stream()
-                .map(role -> (role.getRole().getName()))
+        AccountDetailsImpl userDetails = (AccountDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
+        Account account = accountService.findByUsername(loginRequest.getUsername());
+        account.setPassword("");
         return ResponseEntity.ok(
                 new JwtResponse(jwt, account, roles)
         );
     }
-    @PutMapping("/change-password/{username}")
+    //PhatDT
+    @PutMapping(value="/api/teacher/change-password/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> ChangePassword(@PathVariable("username") String userName ,
                                             @RequestBody PasswordDTO passwordDTO) {
         Account account = accountService.findByUsername(userName);
         if (account == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         if(accountService.checkChangePassword(account,passwordDTO.getOldPassword(),passwordDTO.getNewPassword(),passwordDTO.getConfirmPassword())){
-            return ResponseEntity.ok("accepted");
+            accountService.changePassword(account,passwordDTO.getOldPassword(),passwordDTO.getNewPassword(),passwordDTO.getConfirmPassword());
+            return new ResponseEntity<>(HttpStatus.OK);
         }else {
-            return ResponseEntity.ok("error");
+            return ResponseEntity.badRequest()
+                    .body("Mật khẩu không đúng");
         }
 
     }
-    @GetMapping("/info/{username}")
+    //PhatDT
+    @GetMapping("/api/teacher/info/{username}")
     public ResponseEntity<TeacherViewDTO> ChangePassword(@PathVariable("username") String username) {
-        System.out.println(username);
         return new ResponseEntity<>(accountService.getInfoAccount(username),HttpStatus.OK);
     }
-    @PutMapping(value = "/update-info/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    //PhatDT
+    @PutMapping(value = "/api/teacher/update-info/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateTeacher(@PathVariable("username") String username,
                                                           @RequestBody TeacherUpdateDTO teacherUpdateDTO) {
         this.accountService.updateInfoAccount(teacherUpdateDTO,username);

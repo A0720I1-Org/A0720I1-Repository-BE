@@ -29,6 +29,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public void createAccount(String username, String password, int isEnable) {
+        accountRepository.add(username, passwordEncoder.encode(password), 1);
+    }
+
+    @Override
     public void changePassword(Account account, String oldPassword, String newPassword, String confirmPassword) {
         if (checkChangePassword(account,oldPassword,newPassword,confirmPassword)) {
             accountRepository.changePassword(passwordEncoder.encode( newPassword ), account.getUsername());
@@ -56,13 +61,23 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO, String username) {
+    public void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO,String username) {
         Account account = accountRepository.findAccountByUsername(username);
         if(account == null) {
             return ;
         }else {
-             accountRepository.updadeInfoAccount(teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),
-                     teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),teacherUpdateDTO.getPosition(),account.getId());
+            accountRepository.updadeInfoAccount(teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),
+                    teacherUpdateDTO.getPosition(),teacherUpdateDTO.getLevel(),teacherUpdateDTO.getPhone(),teacherUpdateDTO.getEmail(),teacherUpdateDTO.getImageUrl(),account.getId());
         }
+    }
+
+    @Override
+    public String getMailByUsername(String username) {
+        return accountRepository.getEmail(username);
+    }
+
+    @Override
+    public void changePasswordByForgot(String username, String newPw) {
+        accountRepository.changePasswordByForgot(username,passwordEncoder.encode(newPw));
     }
 }

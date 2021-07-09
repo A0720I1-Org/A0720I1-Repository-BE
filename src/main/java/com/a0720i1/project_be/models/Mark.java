@@ -10,9 +10,9 @@ public class Mark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private double markCol1;
-    private double markCol2;
-    private double markCol3;
+    private Double markCol1;
+    private Double markCol2;
+    private Double markCol3;
     private int multiplier;
     @ManyToOne
     @JoinColumn(name = "subject_result_id", referencedColumnName = "id")
