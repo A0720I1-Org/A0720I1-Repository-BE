@@ -15,4 +15,6 @@ public interface AccountService {
     boolean checkChangePassword(Account account, String oldPassword, String newPassword, String confirmPassword);
     TeacherViewDTO getInfoAccount(String username);
     void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO, String username);
+    String getMailByUsername(String username);
+    void changePasswordByForgot(String username,String newPw);
 }

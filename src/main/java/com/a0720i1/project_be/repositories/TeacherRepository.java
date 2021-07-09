@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.repositories;
 
+import com.a0720i1.project_be.dto.schedule.ScheduleTeacherDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherListDTO;
 import com.a0720i1.project_be.dto.teacher.TeacherViewDTO;
 import com.a0720i1.project_be.models.Teacher;
@@ -21,6 +22,10 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
     // Write by Don
     @Query(value = "select id from account where username = ?1",nativeQuery = true)
     List<Integer> findIdUserByUsername(String username);
+
+    // Don
+    @Query(value = "select id as teacherId, name as teacherName from teacher", nativeQuery = true)
+    List<ScheduleTeacherDTO> findAllTeacherForSchedule();
 
     /**
      * DatNHT
