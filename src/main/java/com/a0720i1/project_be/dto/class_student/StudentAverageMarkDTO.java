@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentAverageMarkDTO {
+    int studentId ;
+    int subjectId ;
     Double averageMark ;
     String subjectName ;
 }

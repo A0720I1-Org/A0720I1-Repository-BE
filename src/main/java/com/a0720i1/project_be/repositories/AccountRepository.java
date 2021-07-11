@@ -5,7 +5,6 @@ import com.a0720i1.project_be.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,10 +41,11 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE account SET password = :password WHERE account_name = :accountName", nativeQuery = true)
-    void changePassword(@Param("password") String encodePw, @Param("accountName") String accountName);
+    @Query(value = "UPDATE account SET password = ?1 WHERE username = ?2", nativeQuery = true)
+    void changePassword(String encodePw, String accountName);
 
-    @Query(value = "select * from teacher where teacher.account_id = ?1", nativeQuery = true)
+    @Query(value = "select t.id, t.address, t.birthday, t.email, t.gender, t.hometown, t.name, t.phone, t.level, t.position, t.image_url as imageUrl\n " +
+            "from teacher as t where t.account_id = ?1", nativeQuery = true)
     TeacherViewDTO getInfoAccount(Integer accountId);
 
     @Transactional

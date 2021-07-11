@@ -3,6 +3,7 @@ package com.a0720i1.project_be.controllers;
 import com.a0720i1.project_be.dto.StudentResultDTO;
 import com.a0720i1.project_be.dto.class_student.ClassListDTO;
 import com.a0720i1.project_be.dto.class_student.StudentAverageMarkDTO;
+import com.a0720i1.project_be.dto.class_student.StudentListDTO;
 import com.a0720i1.project_be.dto.class_student.StudentResultUpdateDTO;
 import com.a0720i1.project_be.models.ReportCard;
 import com.a0720i1.project_be.models.Subject;
@@ -25,6 +26,11 @@ public class SubjectResultController {
     public ResponseEntity<List<Subject>> getListSubject() {
         return subjectResultService.findAllSubject().isEmpty() ?
                 new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(subjectResultService.findAllSubject(),HttpStatus.OK) ;
+    }
+    @GetMapping("/api/teacher/subject-result/student")
+    public ResponseEntity<List<StudentListDTO>> getListStudent(@RequestParam("claStuId") int claStuId) {
+        return subjectResultService.getListStudent(claStuId).isEmpty() ?
+                new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(subjectResultService.getListStudent(claStuId),HttpStatus.OK) ;
     }
     @GetMapping("/api/teacher/subject-result")
     public ResponseEntity<List<StudentResultUpdateDTO>> getListStudentResult(@RequestParam("seReId") int seReId,
@@ -54,11 +60,9 @@ public class SubjectResultController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/api/public/subject-result/average")
-    public ResponseEntity<StudentAverageMarkDTO> getAverage(@RequestParam("seReId") int seReId,
-                                                            @RequestParam("claStuId") int claStuId,
-                                                            @RequestParam("subId") int subId,
-                                                            @RequestParam("subId") int stuId) {
-        return new ResponseEntity<>(subjectResultService.getStudentAverageMark(seReId,claStuId,subId,stuId),HttpStatus.OK);
+    @GetMapping("/api/teacher/subject-result/average")
+    public ResponseEntity<List<StudentAverageMarkDTO>> getAverage(@RequestParam("seReId") int seReId,
+                                                            @RequestParam("claStuId") int claStuId) {
+        return new ResponseEntity<>(subjectResultService.getStudentAverageMark(seReId,claStuId),HttpStatus.OK);
     }
 }

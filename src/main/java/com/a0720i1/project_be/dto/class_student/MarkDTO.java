@@ -10,5 +10,5 @@ public interface MarkDTO {
     Double getMarkCol2() ;
     Double getMarkCol3() ;
     int getMultiplier() ;
-    String getSubjectName() ;
+    String getSubjectName();
 }

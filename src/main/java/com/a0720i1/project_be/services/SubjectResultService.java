@@ -15,7 +15,6 @@ import java.util.List;
 public interface SubjectResultService {
     List<ClassListDTO> findAllClass();
     List<Subject> findAllSubject();
-    List<StudentResultDTO> findStudentResult(int semesterId,int stuClaId,int subId);
     void updateMark(int semesterId,int stuClaId,int subId, StudentResultUpdateDTO studentResultDTO);
     Integer getMarkId(int semesterId,int stuClaId,int subId, StudentResultUpdateDTO studentResultDTO);
     int getSubjectResultId(int semId,int subId);
@@ -25,5 +24,5 @@ public interface SubjectResultService {
     ReportCard getReportCard(int stuClaId,int stuId);
     List<StudentResultUpdateDTO> getListStudentResult(int semesterId,int stuClaId,int subId);
     SchoolYear getCurrentSchoolYear();
-    StudentAverageMarkDTO getStudentAverageMark(int semesterId,int stuClaId,int subId,int studentId);
+    List<StudentAverageMarkDTO> getStudentAverageMark(int semesterId,int stuClaId);
 }

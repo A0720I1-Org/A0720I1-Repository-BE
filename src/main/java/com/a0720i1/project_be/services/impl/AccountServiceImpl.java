@@ -66,8 +66,15 @@ public class AccountServiceImpl implements AccountService {
         if(account == null) {
             return ;
         }else {
-            accountRepository.updadeInfoAccount(teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),
-                    teacherUpdateDTO.getPosition(),teacherUpdateDTO.getLevel(),teacherUpdateDTO.getPhone(),teacherUpdateDTO.getEmail(),teacherUpdateDTO.getImageUrl(),account.getId());
+            accountRepository.updadeInfoAccount(
+                    teacherUpdateDTO.getAddress().replaceAll("\\s{2,}", " ").trim(),
+                    teacherUpdateDTO.getHometown().replaceAll("\\s{2,}", " ").trim(),
+                    teacherUpdateDTO.getPosition().replaceAll("\\s{2,}", " ").trim(),
+                    teacherUpdateDTO.getLevel().replaceAll("\\s{2,}", " ").trim(),
+                    teacherUpdateDTO.getPhone(),
+                    teacherUpdateDTO.getEmail(),
+                    teacherUpdateDTO.getImageUrl(),
+                    account.getId());
         }
     }
 

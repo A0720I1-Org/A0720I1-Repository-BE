@@ -52,8 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
-//                .and()
-//                .exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
