@@ -1,7 +1,6 @@
 package com.a0720i1.project_be.services.impl;
 
 import com.a0720i1.project_be.models.Account;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,12 +12,10 @@ import java.util.stream.Collectors;
 public class AccountDetailsImpl implements UserDetails {
     private int id;
     private String username;
+    private String password;
     private boolean enabled;
 
-    @JsonIgnore
-    private String password;
-
-    List<GrantedAuthority> authorities;
+    private List<GrantedAuthority> authorities;
 
     public AccountDetailsImpl() {
     }
@@ -50,7 +47,7 @@ public class AccountDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
