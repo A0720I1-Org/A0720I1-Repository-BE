@@ -62,6 +62,12 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
             , nativeQuery = true)
     void createStudent(String name, LocalDate birthday, String gender, String hometown , String email, String religion , String ethnicity, String imageUrl);
 
+    @Transactional
+    @Modifying
+    @Query(value = "insert into student(name, birthday, gender, hometown, email, religion , ethnicity) values (?1, ?2, ?3, ?4, ?5, ?6 , ?7)"
+            , nativeQuery = true)
+    void createStudentDTO(String name, LocalDate birthday, String gender, String hometown , String email, String religion , String ethnicity);
+
     @Query(value = "select id from student where student.email  = ?1 limit 1" , nativeQuery = true)
     Integer getIdByEmail(String email);
 

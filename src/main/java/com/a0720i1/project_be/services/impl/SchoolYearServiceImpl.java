@@ -12,8 +12,14 @@ import java.util.List;
 public class SchoolYearServiceImpl implements SchoolYearService {
     @Autowired
     SchoolYearRepository schoolYearRepository;
+
     @Override
     public List<SchoolYear> getAll() {
+        return schoolYearRepository.findAll();
+    }
+
+    @Override
+    public List<SchoolYear> findAll() {
         return schoolYearRepository.findAll();
     }
 }

@@ -13,12 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     // Đôn
-    //  @Query(value = "SELECT * FROM account WHERE account.username = ?1 limit 1", nativeQuery = true)
+    // @Query(value = "SELECT * FROM account WHERE account.username = ?1 limit 1", nativeQuery = true)
     Account findAccountByUsername(String username);
 
     // Đôn: Tìm kiếm id account bằng username
     @Query(value = "select id from account where username = ?1 limit 1", nativeQuery = true)
     int findIdUserByUsername(String username);
+
     //Đôn: Thêm mới tài khoản
     @Modifying
     @Query(value = "insert into account(username, password, is_enabled) values (?1, ?2, ?3)", nativeQuery = true)

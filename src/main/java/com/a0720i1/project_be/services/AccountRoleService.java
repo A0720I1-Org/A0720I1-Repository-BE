@@ -8,5 +8,6 @@ import java.util.List;
 @Service
 public interface AccountRoleService {
     void createAccountRole(int accountId, int roleId);
+
     List<AccountRole> findAllByAccountUsername(String username);
 }

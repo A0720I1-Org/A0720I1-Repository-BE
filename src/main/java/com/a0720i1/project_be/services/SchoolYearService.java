@@ -8,4 +8,6 @@ import java.util.List;
 @Service
 public interface SchoolYearService {
     List<SchoolYear> getAll();
+
+    List<SchoolYear> findAll();
 }

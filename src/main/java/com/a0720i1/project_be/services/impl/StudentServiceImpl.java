@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.services.impl;
 
+import com.a0720i1.project_be.dto.class_student.CreateStudentDTO;
 import com.a0720i1.project_be.dto.HomeRoomClassDTO;
 import com.a0720i1.project_be.dto.StudentHomeroomClassDTO;
 import com.a0720i1.project_be.dto.student_class.ClassCreateStudentDTO;
@@ -18,6 +19,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
 
     @Override
+
     public List<HomeRoomClassDTO> getStudentByTeacherUsername(String username) {
         return studentRepository.getStudentByTeacherUsername(username);
     }
@@ -56,5 +58,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void setAccountId(int accountId, int studentId) {
         this.studentRepository.setAccountId(accountId, studentId);
+    }
+
+    public void createStudentDTO(CreateStudentDTO createStudentDTO) {
+        this.studentRepository.createStudentDTO(createStudentDTO.getName(), createStudentDTO.getBirthday(), createStudentDTO.getGender(),
+                createStudentDTO.getHometown(), createStudentDTO.getEmail() , createStudentDTO.getReligion() , createStudentDTO.getEthnicity());
     }
 }

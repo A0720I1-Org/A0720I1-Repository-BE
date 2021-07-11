@@ -1,6 +1,6 @@
 package com.a0720i1.project_be.services;
 
-
+import com.a0720i1.project_be.dto.class_student.CreateStudentDTO;
 import com.a0720i1.project_be.dto.HomeRoomClassDTO;
 import com.a0720i1.project_be.dto.StudentHomeroomClassDTO;
 import com.a0720i1.project_be.dto.student_class.ClassCreateStudentDTO;
@@ -18,5 +18,6 @@ public interface StudentService {
     void createStudent(String name, LocalDate birthday, String gender, String hometown , String email, String religion ,
                        String ethnicity, String imageUrl);
     Integer getIdByEmail(String email);
+    void createStudentDTO(CreateStudentDTO createStudentDTO);
     void setAccountId(int accountId , int studentId);
 }
