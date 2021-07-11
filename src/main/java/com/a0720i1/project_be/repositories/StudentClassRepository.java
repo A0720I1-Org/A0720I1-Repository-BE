@@ -3,6 +3,7 @@ package com.a0720i1.project_be.repositories;
 import com.a0720i1.project_be.dto.schedule.ScheduleClassDTO;
 import com.a0720i1.project_be.models.StudentClass;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,4 +18,11 @@ public interface StudentClassRepository extends JpaRepository<StudentClass, Inte
 
     @Query(value = "select student_class.id as classId, student_class.name as className from student_class where student_class.id = ?1", nativeQuery = true)
     ScheduleClassDTO findClassNameById(int id);
+
+    @Modifying
+    @Query (value = "insert into student_class(school_year_id, grade_id, name) values (?1,?2, ?3)", nativeQuery = true)
+    void createClass(int schoolYearId, int gradeId, String className);
+
+    @Query(value = "select * from student_class where student_class.name = ?1", nativeQuery=true)
+    List<StudentClass> findAllByName(String name);
 }

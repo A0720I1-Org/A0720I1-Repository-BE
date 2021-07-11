@@ -1,6 +1,7 @@
 package com.a0720i1.project_be.services;
 
 import com.a0720i1.project_be.dto.schedule.ScheduleClassDTO;
+import com.a0720i1.project_be.dto.student_class.ClassCreateDTO;
 import com.a0720i1.project_be.models.StudentClass;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +16,8 @@ public interface StudentClassService {
     ScheduleClassDTO getClassNameByClassId(int id);
 
     StudentClass getStudentClassById(int id);
+
+    void createClass(ClassCreateDTO classCreateDTO);
+
+    List<StudentClass> getAllClassByName(String name);
 }

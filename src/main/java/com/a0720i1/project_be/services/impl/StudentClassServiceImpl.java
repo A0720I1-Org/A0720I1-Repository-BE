@@ -1,6 +1,7 @@
 package com.a0720i1.project_be.services.impl;
 
 import com.a0720i1.project_be.dto.schedule.ScheduleClassDTO;
+import com.a0720i1.project_be.dto.student_class.ClassCreateDTO;
 import com.a0720i1.project_be.models.StudentClass;
 import com.a0720i1.project_be.repositories.StudentClassRepository;
 import com.a0720i1.project_be.services.StudentClassService;
@@ -32,5 +33,15 @@ public class StudentClassServiceImpl implements StudentClassService {
     @Override
     public StudentClass getStudentClassById(int id) {
         return this.studentClassRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void createClass(ClassCreateDTO classCreateDTO) {
+        this.studentClassRepository.createClass(classCreateDTO.getSchoolYearId(), classCreateDTO.getGradeId(), classCreateDTO.getName());
+    }
+
+    @Override
+    public List<StudentClass> getAllClassByName(String name) {
+        return studentClassRepository.findAllByName(name);
     }
 }

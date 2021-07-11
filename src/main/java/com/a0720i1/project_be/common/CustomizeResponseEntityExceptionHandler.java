@@ -1,6 +1,7 @@
 package com.a0720i1.project_be.common;
 
 import com.a0720i1.project_be.dto.schedule.AssignedTeacherDTO;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,12 @@ public class CustomizeResponseEntityExceptionHandler extends ResponseEntityExcep
     public final ResponseEntity<List<AssignedTeacherDTO>> handleAssignedTeacherException(AssignedTeacherException e,  WebRequest request) {
         List<AssignedTeacherDTO> assignedTeacherDTOList = e.assignedTeacherDTOList;
         return new ResponseEntity<>(assignedTeacherDTOList, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidClassNameException.class)
+    public final ResponseEntity<ExceptionResponse> handleInvalidClassNameException(InvalidClassNameException e, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), e.getMessage(), request.getDescription(false), HttpStatus.BAD_REQUEST.getReasonPhrase());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @Override
