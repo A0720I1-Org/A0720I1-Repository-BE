@@ -108,6 +108,5 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
             "where student.name like %?2% and student.hometown like %?3% \n" +
             "limit ?1,5", nativeQuery = true)
     List<StudentListDTO> searchStudentByNameAndHometown(int index, String name, String hometown);
-
-
+    Student findStudentByAccountId(int accountId);
 }

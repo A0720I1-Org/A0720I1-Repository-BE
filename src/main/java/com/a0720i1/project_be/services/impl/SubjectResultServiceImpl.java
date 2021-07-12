@@ -2,6 +2,7 @@ package com.a0720i1.project_be.services.impl;
 
 import com.a0720i1.project_be.dto.StudentResultDTO;
 import com.a0720i1.project_be.dto.class_student.*;
+import com.a0720i1.project_be.dto.schedule.ScheduleClassDTO;
 import com.a0720i1.project_be.models.*;
 import com.a0720i1.project_be.repositories.*;
 import com.a0720i1.project_be.services.SemesterResultService;
@@ -25,7 +26,8 @@ public class SubjectResultServiceImpl implements SubjectResultService {
     SemesterResultRepository semesterResultRepository;
     @Autowired
     SchoolYearRepository schoolYearRepository;
-
+    @Autowired
+    StudentClassRepository studentClassRepository;
     @Override
     public List<ClassListDTO> findAllClass() {
         SchoolYear schoolYear = this.getCurrentSchoolYear();
@@ -162,5 +164,13 @@ public class SubjectResultServiceImpl implements SubjectResultService {
             }
         }
         return studentAverageMarkDTOS;
+    }
+
+    @Override
+    public List<MarkDTO> getResultByStudentById(int semester, int studentId) {
+        SchoolYear schoolYear = this.getCurrentSchoolYear();
+        ScheduleClassDTO scheduleClassDTO = studentClassRepository.findClassByStudentIdAAndSchoolYearId(schoolYear.getId(),studentId);
+        ReportCard reportCard = this.getReportCard(scheduleClassDTO.getClassId(),studentId);
+        return subjectResultRepository.getStudentResultAllSubject(semester,reportCard.getId());
     }
 }
