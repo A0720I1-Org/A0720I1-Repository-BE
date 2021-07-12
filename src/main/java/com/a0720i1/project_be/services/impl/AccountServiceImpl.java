@@ -61,13 +61,30 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO, String username) {
+    public void updateInfoAccount(TeacherUpdateDTO teacherUpdateDTO,String username) {
         Account account = accountRepository.findAccountByUsername(username);
         if(account == null) {
             return ;
         }else {
-             accountRepository.updadeInfoAccount(teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),
-                     teacherUpdateDTO.getAddress(),teacherUpdateDTO.getHometown(),teacherUpdateDTO.getPosition(),account.getId());
+            accountRepository.updadeInfoAccount(
+                    teacherUpdateDTO.getAddress().replaceAll("\\s{2,}", " ").trim(),
+                    teacherUpdateDTO.getHometown().replaceAll("\\s{2,}", " ").trim(),
+                    teacherUpdateDTO.getPosition().replaceAll("\\s{2,}", " ").trim(),
+                    teacherUpdateDTO.getLevel().replaceAll("\\s{2,}", " ").trim(),
+                    teacherUpdateDTO.getPhone(),
+                    teacherUpdateDTO.getEmail(),
+                    teacherUpdateDTO.getImageUrl(),
+                    account.getId());
         }
+    }
+
+    @Override
+    public String getMailByUsername(String username) {
+        return accountRepository.getEmail(username);
+    }
+
+    @Override
+    public void changePasswordByForgot(String username, String newPw) {
+        accountRepository.changePasswordByForgot(username,passwordEncoder.encode(newPw));
     }
 }

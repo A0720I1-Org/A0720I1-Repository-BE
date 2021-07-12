@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.common;
 
+import com.a0720i1.project_be.dto.schedule.AssignedTeacherDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,19 @@ public class CustomizeResponseEntityExceptionHandler extends ResponseEntityExcep
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), e.getMessage(),
                 request.getDescription(false), HttpStatus.UNAUTHORIZED.getReasonPhrase());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(LessonException.class)
+    public final ResponseEntity<ExceptionResponse> handleLessonException(LessonException e, WebRequest request){
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), e.getMessage(),
+                request.getDescription(false), HttpStatus.BAD_REQUEST.getReasonPhrase());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AssignedTeacherException.class)
+    public final ResponseEntity<List<AssignedTeacherDTO>> handleAssignedTeacherException(AssignedTeacherException e,  WebRequest request) {
+        List<AssignedTeacherDTO> assignedTeacherDTOList = e.assignedTeacherDTOList;
+        return new ResponseEntity<>(assignedTeacherDTOList, HttpStatus.BAD_REQUEST);
     }
 
     @Override
