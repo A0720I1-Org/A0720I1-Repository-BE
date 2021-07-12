@@ -47,7 +47,7 @@ public class TeacherController {
     private LessonServiceImpl lessonService;
 
     @GetMapping("/api/public/teacher")
-    public ResponseEntity<List<TeacherListDTO>> getPageAllTeacher(int index) {
+    public ResponseEntity<List<TeacherListDTO>> getPageAllTeacher(@RequestParam int index) {
         List<TeacherListDTO> teacherPageListDTOList = this.teacherService.getPageAllTeacher(index);
         if (teacherPageListDTOList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
