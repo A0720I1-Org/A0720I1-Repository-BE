@@ -5,4 +5,5 @@ public interface TeacherScheduleDTO {
     int getLessonNumber();
     String getSubjectName();
     String getTeacherName();
+    String getNameClass();
 }
