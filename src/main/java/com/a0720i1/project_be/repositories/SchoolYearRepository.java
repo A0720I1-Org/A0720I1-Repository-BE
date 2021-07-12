@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SchoolYearRepository extends JpaRepository<SchoolYear, Integer> {
     SchoolYear getSchoolYearByBeginYearAndEndYear(int beginYear,int endYear) ;
+
 }

@@ -33,4 +33,9 @@ public class StudentClassServiceImpl implements StudentClassService {
     public StudentClass getStudentClassById(int id) {
         return this.studentClassRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<StudentClass> getAll(int yearId, int gradeId) {
+        return studentClassRepository.findByYearIdAndGradeId(yearId, gradeId);
+    }
 }
