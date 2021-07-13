@@ -1,15 +1,10 @@
 package com.a0720i1.project_be.dto.class_student;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
-public interface MarkDTO {
+public interface StudentResultByIdDTO {
     int getStudentId();
+    int getSubjectId();
     Double getMarkCol1();
     Double getMarkCol2();
     Double getMarkCol3();
     int getMultiplier();
-    int getSubjectId();
 }
