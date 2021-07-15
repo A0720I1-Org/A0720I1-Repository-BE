@@ -42,5 +42,4 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.getAssignedTeacherListOnLessonTime(schoolYearId, teacherId, lessonTimeId);
     }
 
-
 }

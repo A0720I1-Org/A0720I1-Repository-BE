@@ -61,7 +61,7 @@ public class SecurityController {
         );
     }
     //PhatDT
-    @PutMapping(value="/api/teacher/change-password/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value="/api/student/change-password/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> ChangePassword(@PathVariable("username") String userName ,
                                             @RequestBody PasswordDTO passwordDTO) {
         Account account = accountService.findByUsername(userName);
@@ -73,7 +73,7 @@ public class SecurityController {
             return new ResponseEntity<>(HttpStatus.OK);
         }else {
             return ResponseEntity.badRequest()
-                    .body("Mật khẩu không đúng");
+                    .body("Mật khẩu cũ không chính xác");
         }
 
     }

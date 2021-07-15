@@ -15,4 +15,7 @@ public interface SchoolYearRepository extends JpaRepository<SchoolYear , Integer
     @Query(value = "select school_year.id , school_year.begin_year , school_year.end_year from school_year;"
             , nativeQuery = true)
     List<SchoolYear> findAll();
+
+    @Query(value = "select *from school_year ORDER BY id DESC LIMIT 1",nativeQuery = true)
+    int getCurrentYearId();
 }
