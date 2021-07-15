@@ -1,12 +1,14 @@
 package com.a0720i1.project_be.controllers;
 
 import com.a0720i1.project_be.dto.StudentResultDTO;
-import com.a0720i1.project_be.dto.class_student.ClassListDTO;
-import com.a0720i1.project_be.dto.class_student.StudentAverageMarkDTO;
-import com.a0720i1.project_be.dto.class_student.StudentListDTO;
-import com.a0720i1.project_be.dto.class_student.StudentResultUpdateDTO;
+import com.a0720i1.project_be.dto.class_student.*;
+import com.a0720i1.project_be.models.Account;
 import com.a0720i1.project_be.models.ReportCard;
+import com.a0720i1.project_be.models.Student;
 import com.a0720i1.project_be.models.Subject;
+import com.a0720i1.project_be.repositories.AccountRepository;
+import com.a0720i1.project_be.repositories.StudentRepository;
+import com.a0720i1.project_be.services.AccountService;
 import com.a0720i1.project_be.services.SubjectResultService;
 import com.a0720i1.project_be.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,12 @@ import java.util.List;
 public class SubjectResultController {
     @Autowired
     SubjectResultService subjectResultService;
+    @Autowired
+    AccountService accountService;
+    @Autowired
+    StudentRepository studentRepository;
+    @Autowired
+    AccountRepository accountRepository;
     @GetMapping("/api/teacher/subject-result/subject")
     public ResponseEntity<List<Subject>> getListSubject() {
         return subjectResultService.findAllSubject().isEmpty() ?
@@ -64,5 +72,12 @@ public class SubjectResultController {
     public ResponseEntity<List<StudentAverageMarkDTO>> getAverage(@RequestParam("seReId") int seReId,
                                                             @RequestParam("claStuId") int claStuId) {
         return new ResponseEntity<>(subjectResultService.getStudentAverageMark(seReId,claStuId),HttpStatus.OK);
+    }
+    @GetMapping("/api/student/subject-result/result")
+    public ResponseEntity<List<MarkDTO>> getResultStudentByUsername(@RequestParam("studentId") int studentId,
+                                                          @RequestParam("semester") int semester) {
+//        Account account = accountRepository.findAccountByUsername(username);
+//        Student student = studentRepository.findStudentByAccountId(account.getId());
+        return new ResponseEntity<>(subjectResultService.getResultByStudentById(semester,studentId),HttpStatus.OK);
     }
 }

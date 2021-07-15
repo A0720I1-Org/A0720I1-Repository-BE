@@ -61,7 +61,7 @@ public class SecurityController {
         );
     }
     //PhatDT
-    @PutMapping(value="/api/teacher/change-password/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value="/api/student/change-password/{username}",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> ChangePassword(@PathVariable("username") String userName ,
                                             @RequestBody PasswordDTO passwordDTO) {
         Account account = accountService.findByUsername(userName);

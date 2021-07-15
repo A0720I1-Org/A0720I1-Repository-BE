@@ -108,6 +108,21 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
             "where student.name like %?2% and student.hometown like %?3% \n" +
             "limit ?1,5", nativeQuery = true)
     List<StudentListDTO> searchStudentByNameAndHometown(int index, String name, String hometown);
+    Student findStudentByAccountId(int accountId);
 
+    @Query(value = "select student.id, student.name,student.email, student.birthday, student.hometown\n" +
+            "from student\n" +
+            "left join report_card on report_card.student_id = student.id\n" +
+            "left join student_class on student_class.id = report_card.student_class_id\n" +
+            "where student_class.school_year_id = ?1\n"+
+            "limit ?2,5", nativeQuery = true)
+    List<StudentListDTO> getAllStudentCurrentYear(int yearId,int index);
 
+    @Query(value = "select student.id, student.name,student.email, student.birthday, student.hometown\n" +
+            "from student\n" +
+            "left join report_card on report_card.student_id = student.id\n" +
+            "left join student_class on student_class.id = report_card.student_class_id\n" +
+            "where student_class.school_year_id = ?1\n"
+            , nativeQuery = true)
+    List<StudentListDTO> getAllStudentPage(int yearId);
 }
