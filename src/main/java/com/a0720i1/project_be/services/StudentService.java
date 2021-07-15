@@ -32,4 +32,8 @@ public interface StudentService {
     void updateStudent(StudentUpdateDTO studentUpdateDTO);
 
     List<StudentListDTO> getAllStudentByClassId(int classId, int index);
+
+
+    List<StudentListDTO> getAllStudentCurrentYear(int yearId,int index);
+    List<StudentListDTO> getAllStudentPage(int yearId);
 }

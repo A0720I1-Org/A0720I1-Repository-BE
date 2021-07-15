@@ -93,9 +93,9 @@ public class StudentController {
     }
 
     @GetMapping("/api/student/student/search-student")
-    public ResponseEntity<List<StudentListDTO>> searchStudentByNameAndHometown(@RequestParam int index ,
+    public ResponseEntity<List<StudentListDTO>> searchStudentByNameAndHometown(@RequestParam int index,
                                                                                @RequestParam String name,
-                                                                               @RequestParam String hometown){
+                                                                               @RequestParam String hometown) {
         List<StudentListDTO> searchStudent = this.studentService.searchStudentByNameAndHometown(index, name, hometown);
         if (searchStudent.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -106,19 +106,39 @@ public class StudentController {
     @GetMapping("/api/student/student/lists-student")
     public ResponseEntity<List<StudentListDTO>> getAllStudentByClassId(@RequestParam int classId,
                                                                        @RequestParam int index) {
-        List<StudentListDTO> listStudentByClassId = this.studentService.getAllStudentByClassId(classId,index);
-        if (listStudentByClassId.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (classId != 0) {
+            List<StudentListDTO> listStudentByClassId = this.studentService.getAllStudentByClassId(classId, index);
+            if (listStudentByClassId.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(listStudentByClassId, HttpStatus.OK);
+
+        } else {
+            int schoolYearId = this.schoolYearService.getCurrentYearId();
+            List<StudentListDTO> listStudent = this.studentService.getAllStudentCurrentYear(schoolYearId, index);
+            if (listStudent.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(listStudent, HttpStatus.OK);
         }
-        return new ResponseEntity<>(listStudentByClassId, HttpStatus.OK);
     }
 
     @GetMapping("/api/student/student/list-student")
     public ResponseEntity<List<StudentListDTO>> getAllStudent(@RequestParam int classId) {
-        List<StudentListDTO> studentListDTOS = this.studentService.getAllStudent(classId);
-        if (studentListDTOS.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (classId != 0) {
+            List<StudentListDTO> studentListDTOS = this.studentService.getAllStudent(classId);
+            if (studentListDTOS.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(studentListDTOS, HttpStatus.OK);
+        } else {
+            int schoolYearId = this.schoolYearService.getCurrentYearId();
+            List<StudentListDTO> studentListDTOS = this.studentService.getAllStudentPage(schoolYearId);
+            if (studentListDTOS.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(studentListDTOS, HttpStatus.OK);
         }
-        return new ResponseEntity<>(studentListDTOS, HttpStatus.OK);
+
     }
 }

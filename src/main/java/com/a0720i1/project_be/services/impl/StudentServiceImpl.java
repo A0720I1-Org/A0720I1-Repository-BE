@@ -82,4 +82,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
 
+    @Override
+    public List<StudentListDTO> getAllStudentCurrentYear(int yearId, int index) {
+        return studentRepository.getAllStudentCurrentYear(yearId,index);
+    }
+    @Override
+    public List<StudentListDTO> getAllStudentPage(int yearId) {
+        return studentRepository.getAllStudentPage(yearId);
+    }
 }
