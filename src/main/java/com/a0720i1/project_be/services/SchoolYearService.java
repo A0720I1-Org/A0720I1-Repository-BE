@@ -9,4 +9,5 @@ import org.springframework.stereotype.Service;
 public interface SchoolYearService {
     List<SchoolYear> getAll();
     SchoolYear getById(int id);
+    int getCurrentYearId();
 }
