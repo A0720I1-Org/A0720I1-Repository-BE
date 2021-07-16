@@ -71,6 +71,9 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
     @Query(value = "select id from student where student.email  = ?1 limit 1" , nativeQuery = true)
     Integer getIdByEmail(String email);
 
+    @Query(value = "select id from student order by id desc limit 1" , nativeQuery = true)
+    Integer getLatestId();
+
     @Modifying
     @Query(value = "update student set student.account_id = ?1 where student.id = ?2" , nativeQuery = true)
     void setAccountId(int accountId , int studentId);

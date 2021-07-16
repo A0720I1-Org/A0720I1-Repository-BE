@@ -64,4 +64,9 @@ public class StudentClassServiceImpl implements StudentClassService {
         return studentClassRepository.getAllStudent();
     }
 
+    @Override
+    public void updateTeacher(int teacherId, int classId) {
+        this.studentClassRepository.updateTeacher(teacherId, classId);
+    }
+
 }

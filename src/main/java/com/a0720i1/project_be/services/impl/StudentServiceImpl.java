@@ -60,6 +60,11 @@ public class StudentServiceImpl implements StudentService {
         this.studentRepository.setAccountId(accountId, studentId);
     }
 
+    @Override
+    public Integer getLatestId() {
+        return studentRepository.getLatestId();
+    }
+
     public void createStudentDTO(CreateStudentDTO createStudentDTO) {
         this.studentRepository.createStudentDTO(createStudentDTO.getName(), createStudentDTO.getBirthday(), createStudentDTO.getGender(),
                 createStudentDTO.getHometown(), createStudentDTO.getEmail() , createStudentDTO.getReligion() , createStudentDTO.getEthnicity());

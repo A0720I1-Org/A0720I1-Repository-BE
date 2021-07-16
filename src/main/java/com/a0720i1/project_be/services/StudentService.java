@@ -20,4 +20,5 @@ public interface StudentService {
     Integer getIdByEmail(String email);
     void createStudentDTO(CreateStudentDTO createStudentDTO);
     void setAccountId(int accountId , int studentId);
+    Integer getLatestId();
 }

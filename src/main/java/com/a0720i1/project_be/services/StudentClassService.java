@@ -31,4 +31,6 @@ public interface StudentClassService {
     List<ClassStudentNameDTO> getAllClassName();
 
     List<ClassStudentListDTO> getAllStudent();
+
+    void updateTeacher(int teacherId, int classId);
 }

@@ -42,4 +42,8 @@ public interface StudentClassRepository extends JpaRepository<StudentClass, Inte
     @Query(value = "select student.id , student.name , student.birthday , student.hometown , student.gender from student;"
             , nativeQuery = true)
     List<ClassStudentListDTO> getAllStudent();
+
+    @Modifying
+    @Query(value = "update student_class set student_class.teacher_id = ?1 where student_class.id = ?2", nativeQuery = true)
+    void updateTeacher(int teacherId, int classId);
 }
