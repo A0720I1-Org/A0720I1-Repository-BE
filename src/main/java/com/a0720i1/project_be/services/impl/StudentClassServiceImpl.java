@@ -69,4 +69,8 @@ public class StudentClassServiceImpl implements StudentClassService {
         this.studentClassRepository.updateTeacher(teacherId, classId);
     }
 
+    @Override
+    public List<StudentClass> getAll(int yearId, int gradeId) {
+        return studentClassRepository.findByYearIdAndGradeId(yearId, gradeId);
+    }
 }

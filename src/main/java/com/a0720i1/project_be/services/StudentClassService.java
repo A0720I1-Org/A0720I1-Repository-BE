@@ -1,15 +1,15 @@
 package com.a0720i1.project_be.services;
 
-
 import com.a0720i1.project_be.dto.schedule.ScheduleClassDTO;
 import com.a0720i1.project_be.dto.student_class.ClassCreateDTO;
 import com.a0720i1.project_be.models.StudentClass;
 import com.a0720i1.project_be.dto.class_student.ClassStudentListDTO;
 import com.a0720i1.project_be.dto.class_student.ClassStudentNameDTO;
 import com.a0720i1.project_be.dto.class_student.ClassStudentTeacherListDTO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public interface StudentClassService {
@@ -33,4 +33,6 @@ public interface StudentClassService {
     List<ClassStudentListDTO> getAllStudent();
 
     void updateTeacher(int teacherId, int classId);
+
+    List<StudentClass> getAll(int yearId, int gradeId);
 }

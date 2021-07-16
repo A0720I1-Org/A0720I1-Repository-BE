@@ -1,5 +1,6 @@
 package com.a0720i1.project_be.repositories;
 
+
 import com.a0720i1.project_be.dto.schedule.ScheduleClassDTO;
 
 import com.a0720i1.project_be.dto.class_student.ClassStudentListDTO;
@@ -9,13 +10,10 @@ import com.a0720i1.project_be.models.StudentClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 
-@Repository
 @Transactional
 public interface StudentClassRepository extends JpaRepository<StudentClass, Integer> {
     @Query(value = "select * from student_class where school_year_id = ?1 and grade_id = ?2 order by name", nativeQuery = true)
@@ -46,4 +44,13 @@ public interface StudentClassRepository extends JpaRepository<StudentClass, Inte
     @Modifying
     @Query(value = "update student_class set student_class.teacher_id = ?1 where student_class.id = ?2", nativeQuery = true)
     void updateTeacher(int teacherId, int classId);
+
+//    PhatDT
+    @Query(value="select student_class.id as classId from student_class\n" +
+            "left join school_year on school_year.id = student_class.school_year_id\n" +
+            "left join report_card on report_card.student_class_id = student_class.id\n" +
+            "left join student on report_card.student_id = student.id\n" +
+            "where school_year.id = ?1 and student.id = ?2",nativeQuery = true)
+    ScheduleClassDTO findClassByStudentIdAAndSchoolYearId(int schoolYearId,int studentId);
 }
+
